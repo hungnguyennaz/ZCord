@@ -42,6 +42,8 @@ public class UpstreamBridge extends PacketHandler
     private final ProxyServer bungee;
     private final UserConnection con;
 
+    private long lastTabCompletion = -1;
+
     public UpstreamBridge(ProxyServer bungee, UserConnection con)
     {
         this.bungee = bungee;
@@ -235,6 +237,20 @@ public class UpstreamBridge extends PacketHandler
     @Override
     public void handle(TabCompleteRequest tabComplete) throws Exception
     {
+        // Waterfall start - tab limiter
+        if ( bungee.getConfig().getTabThrottle() > 0 &&
+                ( con.getPendingConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_13
+                && !bungee.getConfig().isDisableModernTabLimiter()))
+        {
+            long now = System.currentTimeMillis();
+            if ( lastTabCompletion > 0 && (now - lastTabCompletion) <= bungee.getConfig().getTabThrottle() )
+            {
+                throw CancelSendSignal.INSTANCE;
+            }
+            lastTabCompletion = now;
+        }
+
+        // Waterfall end - tab limiter
         List<String> suggestions = new ArrayList<>();
         boolean isRegisteredCommand = false;
 

@@ -130,4 +130,21 @@ public interface ProxyConfig
     // Waterfall Options
     //
 
+    // Throttling options
+
+    /**
+     * How often tab-complete packets can be sent.
+     * <br>
+     * Values in milliseconds.
+     *
+     * @return how often tab-complete packets can be sent in milliseconds
+     */
+    int getTabThrottle();
+
+    /**
+     * Should we disable the tab completion limit for 1.13+ clients
+     *
+     * @return should we disable the tab completion limit for 1.13+ clients
+     */
+    boolean isDisableModernTabLimiter();
 }
