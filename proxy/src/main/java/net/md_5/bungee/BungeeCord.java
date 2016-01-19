@@ -597,7 +597,9 @@ public class BungeeCord extends ProxyServer
         String translation = "<translation '" + name + "' missing>";
         try
         {
-            translation = MessageFormat.format( customBundle != null && customBundle.containsKey( name ) ? customBundle.getString( name ) : baseBundle.getString( name ), args );
+            final String string = customBundle != null && customBundle.containsKey( name ) ? customBundle.getString( name ) : baseBundle.getString( name );
+
+            translation = ( args.length == 0 ) ? string : MessageFormat.format( string, args );
         } catch ( MissingResourceException ex )
         {
         }
