@@ -791,7 +791,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     @Override
     public String getUUID()
     {
-        return uniqueId.toString().replace( "-", "" );
+        return io.github.waterfallmc.waterfall.utils.UUIDUtils.undash( uniqueId.toString() ); // Waterfall
     }
 
     @Override
