@@ -25,4 +25,12 @@ public class TranslatableComponentTest
         Assert.assertEquals( "Test string with a placeholder", TextComponent.toPlainText( baseComponents ) );
         Assert.assertEquals( "§fTest string with §fa§f placeholder", TextComponent.toLegacyText( baseComponents ) );
     }
+
+    @Test
+    public void testEscapedPercentInPlainText()
+    {
+        TranslatableComponent testComponent = new TranslatableComponent( "Test string with %% sign" );
+        Assert.assertEquals( "Test string with % sign", testComponent.toPlainText() );
+        Assert.assertEquals( "§fTest string with §f%§f sign", testComponent.toLegacyText() );
+    }
 }
