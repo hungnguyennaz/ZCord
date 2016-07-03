@@ -2,6 +2,8 @@ package net.md_5.bungee.query;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import io.github.waterfallmc.waterfall.QueryResult;
+import io.github.waterfallmc.waterfall.event.ProxyQueryEvent;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.AddressedEnvelope;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,10 +18,12 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
@@ -85,19 +89,30 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
                 throw new IllegalStateException("No session!");
             }
 
+            // Waterfall start
+            List<String> players = bungee.getPlayers().stream().map(ProxiedPlayer::getName).collect(Collectors.toList());
+
+            ProxyQueryEvent event = new ProxyQueryEvent(listener, new QueryResult(listener.getMotd(), "SMP", "ZCord", // ZCord - world name
+                    bungee.getOnlineCountBF(true), listener.getMaxPlayers(), listener.getHost().getPort(), // ZCord - BF online count
+                    listener.getHost().getHostString(), "MINECRAFT",  players, bungee.getCustomBungeeName())); // ZCord - custom Bungee name
+            QueryResult result = bungee.getPluginManager().callEvent(event).getResult();
+            // Waterfall end
+
             out.writeByte(0x00);
             out.writeInt(sessionId);
 
             switch (in.readableBytes()) {
                 case 0:
                     // Short response
-                    writeString(out, listener.getMotd()); // MOTD
-                    writeString(out, "SMP"); // Game Type
-                    writeString(out, "ZCord"); // World Name //ZCord
-                    writeNumber(out, bungee.getOnlineCountBF(true)); // Online Count//ZCord
-                    writeNumber(out, listener.getMaxPlayers()); // Max Players
-                    writeShort(out, listener.getHost().getPort()); // Port
-                    writeString(out, listener.getHost().getHostString()); // IP
+                    // Waterfall start
+                    writeString( out, result.getMotd() ); // MOTD
+                    writeString( out, result.getGameType() ); // Game Type
+                    writeString( out, result.getWorldName() ); // World Name
+                    writeNumber( out, result.getOnlineCountBF(true) ); // Online Count // ZCord
+                    writeNumber( out, result.getMaxPlayers() ); // Max Players
+                    writeShort( out, result.getPort() ); // Port
+                    writeString( out, result.getAddress() ); // IP
+                    // Waterfall end
                     break;
                 case 4:
                     // Long Response
@@ -106,18 +121,20 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
                                     0x73, 0x70, 0x6C, 0x69, 0x74, 0x6E, 0x75, 0x6D, 0x00, (byte) 0x80, 0x00
                             });
                     Map<String, String> data = new LinkedHashMap<>();
-                    data.put("hostname", listener.getMotd());
-                    data.put("gametype", "SMP");
+                    // Waterfall start
+                    data.put( "hostname", result.getMotd() );
+                    data.put( "gametype", result.getGameType() );
                     // Start Extra Info
-                    data.put("game_id", "MINECRAFT");
-                    data.put("version", bungee.getCustomBungeeName()); //ZCord
-                    data.put("plugins", "");
+                    data.put( "game_id", result.getGameId() );
+                    data.put( "version", result.getVersion() );
+                    data.put( "plugins", "" ); // TODO: Allow population?
                     // End Extra Info
-                    data.put("map", "ZCord by HungNguyenAZ"); //ZCord
-                    data.put("numplayers", Integer.toString(bungee.getOnlineCountBF(true))); //ZCord
-                    data.put("maxplayers", Integer.toString(listener.getMaxPlayers()));
-                    data.put("hostport", Integer.toString(listener.getHost().getPort()));
-                    data.put("hostip", listener.getHost().getHostString());
+                    data.put( "map", result.getWorldName() );
+                    data.put( "numplayers", Integer.toString( result.getOnlineCountBF(true) ) ); // ZCord
+                    data.put( "maxplayers", Integer.toString( result.getMaxPlayers() ) );
+                    data.put( "hostport", Integer.toString( result.getPort() ) );
+                    data.put( "hostip", result.getAddress() );
+                    // Waterfall end
                     for (Map.Entry<String, String> entry : data.entrySet()) {
                         writeString(out, entry.getKey());
                         writeString(out, entry.getValue());
@@ -126,9 +143,7 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
                     // Padding
                     writeString(out, "\01player_\00");
                     // Player List
-                    for (ProxiedPlayer p : bungee.getPlayers()) {
-                        writeString(out, p.getName());
-                    }
+                    result.getPlayers().stream().forEach(p -> writeString(out, p)); // Waterfall
                     out.writeByte(0x00); // Null
                     break;
                 default:
