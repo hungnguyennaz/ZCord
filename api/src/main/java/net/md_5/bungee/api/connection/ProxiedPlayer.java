@@ -126,6 +126,38 @@ public interface ProxiedPlayer extends Connection, CommandSender
      */
     void connect(ServerInfo target, Callback<Boolean> callback);
 
+    // Waterfall start
+    /**
+     * Connects / transfers this user to the specified connection, gracefully
+     * closing the current one. Depending on the implementation, this method
+     * might return before the user has been connected.
+     *
+     * @param target the new server to connect to
+     * @param callback the method called when the connection is complete, or
+     * when an exception is encountered. The boolean parameter denotes success
+     * or failure.
+     * @param retry whether to retry the connection if the initial connection
+     *              fails.
+     */
+    void connect(ServerInfo target, Callback<Boolean> callback, boolean retry);
+
+    /**
+     * Connects / transfers this user to the specified connection, gracefully
+     * closing the current one. Depending on the implementation, this method
+     * might return before the user has been connected.
+     *
+     * @param target the new server to connect to
+     * @param callback the method called when the connection is complete, or
+     * when an exception is encountered. The boolean parameter denotes success
+     * or failure.
+     * @param retry whether to retry the connection if the initial connection
+     *              fails.
+     * @param timeout timeout in milliseconds of the connection created to the
+     *                target server
+     */
+    void connect(ServerInfo target, Callback<Boolean> callback, boolean retry, int timeout);
+    // Waterfall end
+
     /**
      * Connects / transfers this user to the specified connection, gracefully
      * closing the current one. Depending on the implementation, this method
@@ -138,6 +170,25 @@ public interface ProxiedPlayer extends Connection, CommandSender
      * @param reason the reason for connecting to the new server
      */
     void connect(ServerInfo target, Callback<Boolean> callback, ServerConnectEvent.Reason reason);
+
+    // Waterfall start
+    /**
+     * Connects / transfers this user to the specified connection, gracefully
+     * closing the current one. Depending on the implementation, this method
+     * might return before the user has been connected.
+     *
+     * @param target the new server to connect to
+     * @param callback the method called when the connection is complete, or
+     * when an exception is encountered. The boolean parameter denotes success
+     * or failure.
+     * @param retry whether to retry the connection if the initial connection
+     *              fails.
+     * @param reason the reason for connecting to the new server
+     * @param timeout timeout in milliseconds of the connection created to the
+     *                target server
+     */
+    void connect(ServerInfo target, Callback<Boolean> callback, boolean retry, ServerConnectEvent.Reason reason, int timeout);
+    // Waterfall end
 
     /**
      * Connects / transfers this user to the specified connection, gracefully
