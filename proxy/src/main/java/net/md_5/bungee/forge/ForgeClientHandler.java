@@ -9,6 +9,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.md_5.bungee.UserConnection;
+import net.md_5.bungee.protocol.ProtocolConstants;
+import net.md_5.bungee.protocol.packet.EntityRemoveEffect;
 import net.md_5.bungee.protocol.packet.PluginMessage;
 
 /**
@@ -94,7 +96,21 @@ public class ForgeClientHandler
     public void resetHandshake()
     {
         state = ForgeClientHandshakeState.HELLO;
+
+        // This issue only exists in Forge 1.8.9
+        if (this.con.getPendingConnection().getVersion() == ProtocolConstants.MINECRAFT_1_8) {
+            this.resetAllThePotions(con);
+        }
+
         con.unsafe().sendPacket( ForgeConstants.FML_RESET_HANDSHAKE );
+    }
+
+    private void resetAllThePotions(UserConnection con) {
+        // Just to be sure
+        for (Map.Entry<Integer, Integer> entry: con.getPotions().entries()) {
+            con.unsafe().sendPacket(new EntityRemoveEffect(entry.getKey(), entry.getValue()));
+        }
+        con.getPotions().clear();
     }
 
     /**

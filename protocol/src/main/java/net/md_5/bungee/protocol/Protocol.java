@@ -20,6 +20,8 @@ import net.md_5.bungee.protocol.packet.EncryptionRequest;
 import net.md_5.bungee.protocol.packet.EncryptionResponse;
 import net.md_5.bungee.protocol.packet.EntityStatus;
 import net.md_5.bungee.protocol.packet.GameState;
+import net.md_5.bungee.protocol.packet.EntityEffect;
+import net.md_5.bungee.protocol.packet.EntityRemoveEffect;
 import net.md_5.bungee.protocol.packet.Handshake;
 import net.md_5.bungee.protocol.packet.KeepAlive;
 import net.md_5.bungee.protocol.packet.Kick;
@@ -143,6 +145,20 @@ public enum Protocol
                     PlayerChat::new,
                     map( ProtocolConstants.MINECRAFT_1_19, 0x30 )
             );
+            // Waterfall start
+            TO_CLIENT.registerPacket(
+                    EntityEffect.class,
+                    EntityEffect::new,
+                    map(ProtocolConstants.MINECRAFT_1_8, 0x1D),
+                    map(ProtocolConstants.MINECRAFT_1_9, -1)
+            );
+            TO_CLIENT.registerPacket(
+                    EntityRemoveEffect.class,
+                    EntityRemoveEffect::new,
+                    map(ProtocolConstants.MINECRAFT_1_8, 0x1E),
+                    map(ProtocolConstants.MINECRAFT_1_9, -1)
+            );
+            // Waterfall end
             TO_CLIENT.registerPacket(
                     PlayerListItem.class, // PlayerInfo
                     PlayerListItem::new,

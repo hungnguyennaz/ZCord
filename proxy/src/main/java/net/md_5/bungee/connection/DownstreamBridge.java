@@ -52,6 +52,8 @@ import net.md_5.bungee.protocol.PacketWrapper;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import net.md_5.bungee.protocol.packet.BossBar;
 import net.md_5.bungee.protocol.packet.Commands;
+import net.md_5.bungee.protocol.packet.EntityEffect;
+import net.md_5.bungee.protocol.packet.EntityRemoveEffect;
 import net.md_5.bungee.protocol.packet.KeepAlive;
 import net.md_5.bungee.protocol.packet.Kick;
 import net.md_5.bungee.protocol.packet.PlayerListItem;
@@ -678,6 +680,32 @@ public class DownstreamBridge extends PacketHandler
                 break;
         }
     }
+
+    // Waterfall start
+    @Override
+    public void handle(EntityEffect entityEffect) throws Exception
+    {
+        // Don't send any potions when switching between servers (which involves a handshake), which can trigger a race
+        // condition on the client.
+        if (this.con.getForgeClientHandler().isForgeUser() && !this.con.getForgeClientHandler().isHandshakeComplete()) {
+            throw CancelSendSignal.INSTANCE;
+        }
+        con.getPotions().put(rewriteEntityId(entityEffect.getEntityId()), entityEffect.getEffectId());
+    }
+
+    @Override
+    public void handle(EntityRemoveEffect removeEffect) throws Exception
+    {
+        con.getPotions().remove(rewriteEntityId(removeEffect.getEntityId()), removeEffect.getEffectId());
+    }
+
+    private int rewriteEntityId(int entityId) {
+        if (entityId == con.getServerEntityId()) {
+            return con.getClientEntityId();
+        }
+        return entityId;
+    }
+    // Waterfall end
 
     @Override
     public void handle(Respawn respawn)

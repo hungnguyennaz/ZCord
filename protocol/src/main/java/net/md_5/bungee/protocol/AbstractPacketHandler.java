@@ -10,6 +10,8 @@ import net.md_5.bungee.protocol.packet.ClientStatus;
 import net.md_5.bungee.protocol.packet.Commands;
 import net.md_5.bungee.protocol.packet.EncryptionRequest;
 import net.md_5.bungee.protocol.packet.EncryptionResponse;
+import net.md_5.bungee.protocol.packet.EntityEffect; // Waterfall
+import net.md_5.bungee.protocol.packet.EntityRemoveEffect; // Waterfall
 import net.md_5.bungee.protocol.packet.EntityStatus;
 import net.md_5.bungee.protocol.packet.GameState;
 import net.md_5.bungee.protocol.packet.Handshake;
@@ -235,4 +237,14 @@ public abstract class AbstractPacketHandler
     public void handle(GameState gameState) throws Exception
     {
     }
+
+    // Waterfall start
+    public void handle(EntityEffect entityEffect) throws Exception
+    {
+    }
+
+    public void handle(EntityRemoveEffect removeEffect) throws Exception
+    {
+    }
+    // Waterfall end
 }
