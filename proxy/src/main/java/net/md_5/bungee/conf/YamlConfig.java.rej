@@ -1,0 +1,20 @@
+--- proxy/src/main/java/net/md_5/bungee/conf/YamlConfig.java
++++ proxy/src/main/java/net/md_5/bungee/conf/YamlConfig.java
+@@ -47,10 +47,15 @@ public class YamlConfig implements ConfigurationAdapter
+     }
+     private final Yaml yaml;
+     private Map<String, Object> config;
+-    private final File file = new File( "config.yml" );
++    private final File file;
+ 
+-    public YamlConfig()
++    public YamlConfig() {
++        this(new File("config.yml"));
++    }
++
++    public YamlConfig(File file)
+     {
++        this.file = file;
+         DumperOptions options = new DumperOptions();
+         options.setDefaultFlowStyle( DumperOptions.FlowStyle.BLOCK );
+         yaml = new Yaml( options );
