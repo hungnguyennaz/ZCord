@@ -208,6 +208,7 @@ public class UpstreamBridge extends PacketHandler
 
     private String handleChat(String message)
     {
+        boolean empty = true;
         for ( int index = 0, length = message.length(); index < length; index++ )
         {
             char c = message.charAt( index );
@@ -215,8 +216,12 @@ public class UpstreamBridge extends PacketHandler
             {
                 con.disconnect( bungee.getTranslation( "illegal_chat_characters", Util.unicode( c ) ) );
                 throw CancelSendSignal.INSTANCE;
+            } else if (empty && !Character.isWhitespace(c)) {
+                empty = false;
             }
         }
+        Preconditions.checkArgument(!empty, "Chat message is empty");
+
         ChatEvent chatEvent = new ChatEvent( con, con.getServer(), message );
         if ( !bungee.getPluginManager().callEvent( chatEvent ).isCancelled() )
         {
