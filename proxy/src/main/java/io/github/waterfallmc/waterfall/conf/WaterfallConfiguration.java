@@ -15,6 +15,12 @@ public class WaterfallConfiguration extends Configuration {
      */
     private String gameVersion;
 
+    /**
+     * Whether we use Netty's async DNS resolver for the HttpClient.
+     * <p>Default is true (use Netty's async DNS resolver)</p>
+     */
+    private boolean useNettyDnsResolver = true;
+
     /*
      * Throttling options
      * Helps prevent players from overloading the servers behind us
@@ -35,6 +41,7 @@ public class WaterfallConfiguration extends Configuration {
         YamlConfig config = new YamlConfig(new File("waterfall.yml"));
         config.load(false); // Load, but no permissions
         gameVersion = config.getString("game_version", "").isEmpty() ? Joiner.on(", ").join(ProtocolConstants.SUPPORTED_VERSIONS) : config.getString("game_version", "");
+        useNettyDnsResolver = config.getBoolean("use_netty_dns_resolver", useNettyDnsResolver);
         // Throttling options
         tabThrottle = config.getInt("throttling.tab_complete", tabThrottle);
         disableModernTabLimiter = config.getBoolean("disable_modern_tab_limiter", disableModernTabLimiter);
@@ -43,6 +50,11 @@ public class WaterfallConfiguration extends Configuration {
     @Override
     public String getGameVersion() {
         return gameVersion;
+    }
+
+    @Override
+    public boolean isUseNettyDnsResolver() {
+        return useNettyDnsResolver;
     }
 
     @Override

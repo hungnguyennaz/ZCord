@@ -28,6 +28,10 @@ public class HttpClient
 
     public static final int TIMEOUT = 5000;
     private static final Cache<String, InetAddress> addressCache = CacheBuilder.newBuilder().expireAfterWrite( 1, TimeUnit.MINUTES ).build();
+    // Waterfall Start - optionally use async resolver from Netty
+    private static final io.netty.resolver.dns.DnsAddressResolverGroup dnsResolverGroup =
+            new io.netty.resolver.dns.DnsAddressResolverGroup(PipelineUtils.getDatagramChannel(), io.netty.resolver.dns.DefaultDnsServerAddressStreamProvider.INSTANCE);
+    // Waterfall End
 
     @SuppressWarnings("UnusedAssignment")
     public static void get(String url, EventLoop eventLoop, final Callback<String> callback)
@@ -57,19 +61,21 @@ public class HttpClient
             }
         }
 
-        InetAddress inetHost = addressCache.getIfPresent( uri.getHost() );
-        if ( inetHost == null )
-        {
-            try
-            {
-                inetHost = InetAddress.getByName( uri.getHost() );
-            } catch ( UnknownHostException ex )
-            {
-                callback.done( null, ex );
-                return;
-            }
-            addressCache.put( uri.getHost(), inetHost );
-        }
+        // Waterfall Start - Move address creation to implementation method
+        //InetAddress inetHost = addressCache.getIfPresent( uri.getHost() );
+        //if ( inetHost == null )
+        //{
+        //    try
+        //    {
+        //        inetHost = InetAddress.getByName( uri.getHost() );
+        //    } catch ( UnknownHostException ex )
+        //    {
+        //        callback.done( null, ex );
+        //        return;
+        //    }
+        //    addressCache.put( uri.getHost(), inetHost );
+        //}
+        // Waterfall End
 
         ChannelFutureListener future = new ChannelFutureListener()
         {
@@ -92,7 +98,40 @@ public class HttpClient
             }
         };
 
+
+        // Waterfall Start - Optionally use Netty's async DNS Resolver
+        if (net.md_5.bungee.api.ProxyServer.getInstance().getConfig().isUseNettyDnsResolver()) {
+            getWithNettyResolver(eventLoop, uri, port, future, callback, ssl);
+        } else {
+            getWithDefaultResolver(eventLoop, uri, port, future, callback, ssl);
+        }
+        //new Bootstrap().channel( PipelineUtils.getChannel() ).group( eventLoop ).handler( new HttpInitializer( callback, ssl, uri.getHost(), port ) ).
+        //        option( ChannelOption.CONNECT_TIMEOUT_MILLIS, TIMEOUT ).remoteAddress( inetHost, port ).connect().addListener( future );
+    }
+
+    private static void getWithNettyResolver(EventLoop eventLoop, URI uri, int port, ChannelFutureListener future, Callback<String> callback, boolean ssl) {
+        java.net.InetSocketAddress address = java.net.InetSocketAddress.createUnresolved(uri.getHost(), port);
+        new Bootstrap().channel( PipelineUtils.getChannel( null ) ).group( eventLoop ).handler( new HttpInitializer( callback, ssl, uri.getHost(), port ) ).
+                option( ChannelOption.CONNECT_TIMEOUT_MILLIS, TIMEOUT ).resolver(dnsResolverGroup).remoteAddress( address ).connect().addListener( future );
+    }
+
+    private static void getWithDefaultResolver(EventLoop eventLoop, URI uri, int port, ChannelFutureListener future, Callback<String> callback, boolean ssl) {
+        // This is identical to the Bungee implementation of #get other than the absence of the ChannelFutureListener creation
+        InetAddress inetHost = addressCache.getIfPresent( uri.getHost() );
+        if ( inetHost == null )
+        {
+            try
+            {
+                inetHost = InetAddress.getByName( uri.getHost() );
+            } catch ( UnknownHostException ex )
+            {
+                callback.done( null, ex );
+                return;
+            }
+            addressCache.put( uri.getHost(), inetHost );
+        }
         new Bootstrap().channel( PipelineUtils.getChannel( null ) ).group( eventLoop ).handler( new HttpInitializer( callback, ssl, uri.getHost(), port ) ).
                 option( ChannelOption.CONNECT_TIMEOUT_MILLIS, TIMEOUT ).remoteAddress( inetHost, port ).connect().addListener( future );
     }
+    // Waterfall End
 }
