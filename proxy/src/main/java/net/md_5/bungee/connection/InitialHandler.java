@@ -662,7 +662,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             }
         };
         // fire login event
-        bungee.getPluginManager().callEvent( new LoginEvent( InitialHandler.this, complete ) );
+        bungee.getPluginManager().callEvent( new LoginEvent( InitialHandler.this, complete, this.getLoginProfile() ) ); // Waterfall: Parse LoginResult object to new constructor of LoginEvent
     }
 
     private void finnalyFinishLogin(UserConnection userCon, boolean ignoreLoginSuccess)
