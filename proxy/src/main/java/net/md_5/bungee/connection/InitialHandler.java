@@ -375,7 +375,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 break;
             case 2:
                 // Login
-                bungee.getLogger().log( Level.INFO, "{0} has connected", this.toString() ); // ZCord, use toString()
+                if (BungeeCord.getInstance().getConfig().isLogInitialHandlerConnections() ) // Waterfall
+                {
+                    bungee.getLogger().log( Level.INFO, "{0} has connected", this.toString() ); // ZCord, use toString()
+                }
                 thisState = State.USERNAME;
                 ch.setProtocol( Protocol.LOGIN );
 
