@@ -42,6 +42,8 @@ public class WaterfallConfiguration extends Configuration {
     private int tabThrottle = 1000;
     private boolean disableModernTabLimiter = true;
 
+    private boolean disableEntityMetadataRewrite = false;
+
     @Override
     public void load() {
         super.load();
@@ -53,6 +55,7 @@ public class WaterfallConfiguration extends Configuration {
         // Throttling options
         tabThrottle = config.getInt("throttling.tab_complete", tabThrottle);
         disableModernTabLimiter = config.getBoolean("disable_modern_tab_limiter", disableModernTabLimiter);
+        disableEntityMetadataRewrite = config.getBoolean("disable_entity_metadata_rewrite", disableEntityMetadataRewrite);
     }
 
     @Override
@@ -78,5 +81,10 @@ public class WaterfallConfiguration extends Configuration {
     @Override
     public boolean isDisableModernTabLimiter() {
         return disableModernTabLimiter;
+    }
+
+    @Override
+    public boolean isDisableEntityMetadataRewrite() {
+        return disableEntityMetadataRewrite;
     }
 }

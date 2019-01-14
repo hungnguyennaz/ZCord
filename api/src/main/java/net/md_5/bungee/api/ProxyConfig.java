@@ -168,4 +168,9 @@ public interface ProxyConfig
      * @return should we disable the tab completion limit for 1.13+ clients
      */
     boolean isDisableModernTabLimiter();
+
+    /**
+     * @return Should we disable entity metadata rewriting?
+     */
+    boolean isDisableEntityMetadataRewrite();
 }

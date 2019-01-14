@@ -685,6 +685,7 @@ public class DownstreamBridge extends PacketHandler
     @Override
     public void handle(EntityEffect entityEffect) throws Exception
     {
+        if (con.isDisableEntityMetadataRewrite()) return; // Waterfall
         // Don't send any potions when switching between servers (which involves a handshake), which can trigger a race
         // condition on the client.
         if (this.con.getForgeClientHandler().isForgeUser() && !this.con.getForgeClientHandler().isHandshakeComplete()) {
@@ -696,6 +697,7 @@ public class DownstreamBridge extends PacketHandler
     @Override
     public void handle(EntityRemoveEffect removeEffect) throws Exception
     {
+        if (con.isDisableEntityMetadataRewrite()) return; // Waterfall
         con.getPotions().remove(rewriteEntityId(removeEffect.getEntityId()), removeEffect.getEffectId());
     }
 
