@@ -5,10 +5,12 @@
 #include "net_md_5_bungee_jni_cipher_NativeCipherImpl.h"
 
 // Support for CentOS 6
+#if __linux__ // Waterfall
 __asm__(".symver memcpy,memcpy@GLIBC_2.2.5");
 extern "C" void *__wrap_memcpy(void *dest, const void *src, size_t n) {
     return memcpy(dest, src, n);
 }
+#endif // Waterfall
 
 typedef unsigned char byte;
 
