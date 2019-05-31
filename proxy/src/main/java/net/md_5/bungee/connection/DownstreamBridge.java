@@ -183,8 +183,14 @@ public class DownstreamBridge extends PacketHandler
     @Override
     public void handle(PlayerListItem playerList) throws Exception
     {
-        con.getTabListHandler().onUpdate( TabList.rewrite( playerList ) );
-        throw CancelSendSignal.INSTANCE; // Always throw because of profile rewriting
+        //Waterfall start
+        boolean skipRewrites = bungee.getConfig().isDisableTabListRewrite();
+        con.getTabListHandler().onUpdate( skipRewrites ? playerList : TabList.rewrite( playerList ) );
+        if ( !skipRewrites )
+        {
+            throw CancelSendSignal.INSTANCE; // Only throw if profile rewriting is enabled
+        }
+        // Waterfall end
     }
 
     @Override
