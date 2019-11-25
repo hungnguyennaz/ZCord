@@ -15,6 +15,8 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -512,6 +514,14 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         checkState( EncryptionUtil.check( loginRequest.getPublicKey(), encryptResponse, request ), "Invalid verification" );
         thisState = State.FINISHING; // Waterfall - move earlier - There is no verification of this later (and this is not API)
         SecretKey sharedKey = EncryptionUtil.getSecret( encryptResponse, request );
+        // Waterfall start
+        if (sharedKey instanceof SecretKeySpec) {
+            if (sharedKey.getEncoded().length != 16) {
+             this.ch.close();
+             return;
+            }
+        }
+        // Waterfall end
         BungeeCipher decrypt = EncryptionUtil.getCipher( false, sharedKey );
         ch.addBefore( PipelineUtils.FRAME_DECODER, PipelineUtils.DECRYPT_HANDLER, new CipherDecoder( decrypt ) );
         BungeeCipher encrypt = EncryptionUtil.getCipher( true, sharedKey );
