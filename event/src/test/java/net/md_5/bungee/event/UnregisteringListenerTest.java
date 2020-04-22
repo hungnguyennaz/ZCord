@@ -13,7 +13,7 @@ public class UnregisteringListenerTest
     {
         bus.register( this );
         bus.unregister( this );
-        bus.post( new TestEvent() );
+        bus.post( new TestEvent(), null ); // Waterfall - We dont need an exception handler here
     }
 
     @EventHandler

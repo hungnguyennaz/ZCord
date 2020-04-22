@@ -14,14 +14,14 @@ public class EventBusTest
     public void testNestedEvents()
     {
         bus.register( this );
-        bus.post( new FirstEvent() );
+        bus.post( new FirstEvent(), null ); // Waterfall - We dont need an exception handler here
         Assert.assertEquals( 0, latch.getCount() );
     }
 
     @EventHandler
     public void firstListener(FirstEvent event)
     {
-        bus.post( new SecondEvent() );
+        bus.post( new SecondEvent(), null ); // Waterfall - We dont need an exception handler here
         Assert.assertEquals( 1, latch.getCount() );
         latch.countDown();
     }
@@ -39,4 +39,5 @@ public class EventBusTest
     public static class SecondEvent
     {
     }
+
 }

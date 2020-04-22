@@ -15,7 +15,7 @@ public class EventPriorityTest
     {
         bus.register( this );
         bus.register( new EventPriorityListenerPartner() );
-        bus.post( new PriorityTestEvent() );
+        bus.post( new PriorityTestEvent(), null ); // Waterfall - We dont need an exception handler here
         Assert.assertEquals( 0, latch.getCount() );
     }
 

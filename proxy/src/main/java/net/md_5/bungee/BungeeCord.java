@@ -11,6 +11,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import io.github.waterfallmc.waterfall.conf.WaterfallConfiguration;
+import io.github.waterfallmc.waterfall.event.ProxyExceptionEvent;
+import io.github.waterfallmc.waterfall.exception.ProxyPluginEnableDisableException;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -510,7 +512,11 @@ public class BungeeCord extends ProxyServer
                 }
             } catch ( Throwable t )
             {
-                getLogger().log( Level.SEVERE, "Exception disabling plugin " + plugin.getDescription().getName(), t );
+                // Waterfall start - throw exception event
+                String msg = "Exception disabling plugin " + plugin.getDescription().getName();
+                getLogger().log( Level.SEVERE, msg, t );
+                pluginManager.callEvent( new ProxyExceptionEvent( new ProxyPluginEnableDisableException( msg, t, plugin) ) );
+                // Waterfall end
             }
             getScheduler().cancel( plugin );
             plugin.getExecutorService().shutdownNow();
