@@ -68,6 +68,14 @@ public class ServerConnectRequest
      */
     @Setter
     private boolean retry;
+    // Waterfall start
+    /**
+     * Should feedback from the request be sent to players, allows plugins
+     * to silently deal with the outcome on their own
+     */
+    @Setter
+    private boolean sendFeedback;
+    // Waterfall end
 
     /**
      * Class that sets default properties/adds methods to the lombok builder
@@ -77,5 +85,6 @@ public class ServerConnectRequest
     {
 
         private int connectTimeout = ProxyServer.getInstance().getConfig().getServerConnectTimeout();
+        private boolean isSendFeedback = true; // Waterfall # God. f##king. lombok.
     }
 }
