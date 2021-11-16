@@ -179,4 +179,18 @@ public interface ProxyConfig
      * @return {@code true} if tablist rewriting is disabled, {@code false} otherwise
      */
     boolean isDisableTabListRewrite();
+
+    /**
+     * Gets the maximum number of registered plugin channels for any connection.
+     *
+     * @return the configured limit
+     */
+    int getPluginChannelLimit();
+
+    /**
+     * Gets the maximum length for any plugin message channel identifier.
+     *
+     * @return the configured limit
+     */
+    int getPluginChannelNameLimit();
 }

@@ -45,6 +45,23 @@ public class WaterfallConfiguration extends Configuration {
     private boolean disableEntityMetadataRewrite = false;
     private boolean disableTabListRewrite = true;
 
+    /*
+     * Plugin Message limiting options
+     * Allows for more control over server-client communication
+     */
+
+    /**
+     * How many channels there can be between server and player,
+     * typically used by mods or some plugins.
+     */
+    private int pluginChannelLimit = 128;
+
+    /**
+     * How long the maximum channel name can be,
+     * only reason to change it would be broken mods.
+     */
+    private int pluginChannelNameLimit = 128;
+
     @Override
     public void load() {
         super.load();
@@ -58,6 +75,8 @@ public class WaterfallConfiguration extends Configuration {
         disableModernTabLimiter = config.getBoolean("disable_modern_tab_limiter", disableModernTabLimiter);
         disableEntityMetadataRewrite = config.getBoolean("disable_entity_metadata_rewrite", disableEntityMetadataRewrite);
         disableTabListRewrite = config.getBoolean("disable_tab_list_rewrite", disableTabListRewrite);
+        pluginChannelLimit = config.getInt("registered_plugin_channels_limit", pluginChannelLimit);
+        pluginChannelNameLimit = config.getInt("plugin_channel_name_limit", pluginChannelNameLimit);
     }
 
     @Override
@@ -93,5 +112,15 @@ public class WaterfallConfiguration extends Configuration {
     @Override
     public boolean isDisableTabListRewrite() {
         return disableTabListRewrite;
+    }
+
+    @Override
+    public int getPluginChannelLimit() {
+        return pluginChannelLimit;
+    }
+
+    @Override
+    public int getPluginChannelNameLimit() {
+        return pluginChannelNameLimit;
     }
 }

@@ -841,9 +841,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
             for ( String id : content.split( "\0" ) )
             {
-                Preconditions.checkState( registeredChannels.size() < 128, "Too many registered channels" );
-                Preconditions.checkArgument( id.length() < 128, "Channel name too long" );
-
+                // Waterfall start: Add configurable limits for plugin messaging
+                Preconditions.checkState( !(registeredChannels.size() > bungee.getConfig().getPluginChannelLimit()), "Too many registered channels. This limit can be configured in the waterfall.yml" );
+                Preconditions.checkArgument( !(id.length() > bungee.getConfig().getPluginChannelNameLimit()), "Channel name too long. This limit can be configured in the waterfall.yml" );
+                // Waterfall end
                 registeredChannels.add( id );
             }
             return true;
