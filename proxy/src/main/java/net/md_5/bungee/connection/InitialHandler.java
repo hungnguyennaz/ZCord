@@ -565,7 +565,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 }
             }
         };
-        thisState = State.FINISHING;
+        //thisState = State.FINISHING; // Waterfall - move earlier
         HttpClient.get( authURL, ch.getHandle().eventLoop(), handler );
     }
 
