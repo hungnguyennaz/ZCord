@@ -2,6 +2,8 @@ package net.md_5.bungee.protocol;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
+
+import gnu.trove.impl.Constants;
 import gnu.trove.map.TIntObjectMap;
 import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TIntObjectHashMap;
@@ -845,9 +847,12 @@ public enum Protocol
             {
                 throw new BadPacketException( "Unsupported protocol version" );
             }
-            Preconditions.checkArgument( protocolData.packetMap.containsKey( packet ), "Cannot get ID for packet %s in phase %s with direction %s", packet, protocolPhase, direction );
-     
-            return protocolData.packetMap.get( packet );
+            // Waterfall start
+            final int packetId = protocolData.packetMap.get(packet);
+            Preconditions.checkArgument( packetId >= 0, "Cannot get ID for packet %s in phase %s with direction %s for protocol version %s", packet, protocolPhase, direction, version ); // Waterfall - add version
+
+            return packetId;
+            // Waterfall end
         }
     }
 }
