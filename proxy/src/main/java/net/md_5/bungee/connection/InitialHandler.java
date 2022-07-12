@@ -808,6 +808,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         }
 
         sb.append( getSocketAddress() );
+        sb.append( "] <-> ZCordHandler" );
 
         return sb.toString();
     }
