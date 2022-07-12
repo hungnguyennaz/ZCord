@@ -18,6 +18,6 @@ public class CommandReloadServers extends Command
     public void execute(CommandSender sender, String[] args)
     {
         BungeeCord.getInstance().config.loadServers( BungeeCord.getInstance().getConfigurationAdapter(), true );
-        sender.sendMessage( "§cServers reloaded" );
+        sender.sendMessage( "[ZCord] Servers reloaded" );
     }
 }
