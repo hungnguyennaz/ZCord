@@ -408,6 +408,6 @@ public class Connector extends MoveHandler
     @Override
     public String toString()
     {
-        return "[" + name + "|" + ip + "] <-> ZCord";
+        return "[" + name + "|" + ip + "] <-> ZCordFilter";
     }
 }
