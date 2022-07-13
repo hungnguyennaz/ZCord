@@ -799,20 +799,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     @Override
     public String toString()
     {
-        StringBuilder sb = new StringBuilder();
-        sb.append( '[' );
-
-        String currentName = getName();
-        if ( currentName != null )
-        {
-            sb.append( currentName );
-            sb.append( ',' );
-        }
-
-        sb.append( getSocketAddress() );
-        sb.append( "] <-> ZCordHandler" );
-
-        return sb.toString();
+        return "[" + getSocketAddress() + ( getName() != null ? "|" + getName() : "" ) + "] <-> InitialHandler";
     }
 
     @Override
