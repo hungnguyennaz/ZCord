@@ -115,12 +115,6 @@ public class Config
         }
     }
 
-    /*
-    public int getConfigVersion(File file)
-    {
-        return YamlConfiguration.loadConfiguration( file ).getInt( "config-version", 0 );
-    }
-     */
 
     /**
      * Set all values in the file (load first to avoid overwriting)
