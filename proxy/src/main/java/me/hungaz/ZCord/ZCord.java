@@ -57,7 +57,7 @@ public class ZCord
     private final CheckState normalState;
     private final CheckState attackState;
 
-    private int botCounter = 0;
+    public int botCounter = 0;
     private long lastAttack = 0;
     @Setter
     @Getter

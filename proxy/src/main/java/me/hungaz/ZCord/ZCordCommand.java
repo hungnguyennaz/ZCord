@@ -85,7 +85,7 @@ public class ZCordCommand extends Command
 
         (new Timer()).schedule(new TimerTask() {
             public void run() {
-                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&cZCord -> &eCPS/s "+zCord.getSkidStatics().getConnectionsPerSecond()+" | Attacked ")+zCord.isUnderAttack()));
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&cZCord -> &eCPS/s "+zCord.botCounter)));
             }
         }, 120L, 120L);
     }
