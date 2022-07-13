@@ -311,6 +311,14 @@ public class BungeeCord extends ProxyServer
 
         isRunning = true;
 
+        if ( me.hungaz.utils.ProxyEnvironment.userIsRootOrAdmin() ) {
+            getLogger().warning("====================================");
+            getLogger().warning("Great, you're running this proxy on Root/Administrator environment.");
+            getLogger().warning("We can use some Linux/Unix optimizations to run faster, more optimized.");
+            getLogger().warning("BUT DON'T RUN ZCORD ON WINDOWS, WE DON'T RECOMMENDED.");
+            getLogger().warning("====================================");
+        }
+
         pluginManager.enablePlugins();
 
         if ( config.getThrottle() > 0 )
