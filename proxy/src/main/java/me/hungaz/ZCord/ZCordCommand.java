@@ -6,12 +6,13 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import net.md_5.bungee.BungeeCord;
+import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import me.hungaz.ZCord.captcha.CaptchaGeneration;
@@ -78,12 +79,15 @@ public class ZCordCommand extends Command
 
     private void sendStat(CommandSender sender)
     {
-        ZCord ZCord = BungeeCord.getInstance().getZCord();
-        sender.sendMessage( "§8------------------------------------" );
-        sender.sendMessage( "§b> Attack detected: " + ( ZCord.isUnderAttack() ? "§cYes" : "§aNo" ) );
-        sender.sendMessage( "§b> Bots under test: " + ZCord.getOnlineOnFilter() );
-        sender.sendMessage( "§b> Passed: " + ZCord.getUsersCount() );
-        sender.sendMessage( "§8------------------------------------" );
+        ZCord zCord = BungeeCord.getInstance().getZCord();
+        final ProxiedPlayer player = (ProxiedPlayer) sender;
+        //Don't skid -> by xIsm4
+
+        (new Timer()).schedule(new TimerTask() {
+            public void run() {
+                player.sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(ChatColor.translateAlternateColorCodes('&', "&eZCord -> Attack <-")+zCord.isUnderAttack()+" Checking <- "+zCord.getOnlineOnFilter()));
+            }
+        }, 120L, 120L);
     }
 
     private void export(CommandSender sender, String[] args)
