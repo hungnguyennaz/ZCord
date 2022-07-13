@@ -60,14 +60,14 @@ public class Configuration implements ProxyConfig
      * Whether we log proxy commands to the proxy log
      */
     private boolean logCommands;
-    private boolean logPings = true;
+    private boolean logPings = false;
     private int remotePingCache = -1;
     private int playerLimit = -1;
     private Collection<String> disabledCommands;
     private int serverConnectTimeout = 5000;
     private int remotePingTimeout = 5000;
-    private int throttle = 4000;
-    private int throttleLimit = 3;
+    private int throttle = 5000;
+    private int throttleLimit = 1;
     private boolean ipForward;
     private Favicon favicon;
     private int compressionThreshold = 256;
