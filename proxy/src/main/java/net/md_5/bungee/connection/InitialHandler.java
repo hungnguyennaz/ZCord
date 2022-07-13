@@ -372,6 +372,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 thisState = State.STATUS;
                 ch.setProtocol( Protocol.STATUS );
                 bungee.getZCord().getServerPingUtils().add( getAddress().getAddress() ); //ZCord
+                bungee.getZCord().getStatics().addTotalConnectionPerSecond();
                 break;
             case 2:
                 //ZCord

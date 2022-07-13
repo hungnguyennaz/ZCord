@@ -2,21 +2,8 @@ package net.md_5.bungee.netty;
 
 import com.google.common.base.Preconditions;
 import io.netty.buffer.PooledByteBufAllocator;
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelException;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
-import io.netty.channel.ServerChannel;
-import io.netty.channel.WriteBufferWaterMark;
-import io.netty.channel.epoll.Epoll;
-import io.netty.channel.epoll.EpollDatagramChannel;
-import io.netty.channel.epoll.EpollDomainSocketChannel;
-import io.netty.channel.epoll.EpollEventLoopGroup;
-import io.netty.channel.epoll.EpollServerDomainSocketChannel;
-import io.netty.channel.epoll.EpollServerSocketChannel;
-import io.netty.channel.epoll.EpollSocketChannel;
+import io.netty.channel.*;
+import io.netty.channel.epoll.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.channel.socket.nio.NioDatagramChannel;
@@ -27,27 +14,23 @@ import io.netty.handler.codec.haproxy.HAProxyMessageDecoder;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.util.AttributeKey;
 import io.netty.util.internal.PlatformDependent;
-import java.net.SocketAddress;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 import lombok.val;
 import me.hungaz.ZCord.config.Settings;
+import me.hungaz.ZCord.utils.SkidStatics;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.event.ClientConnectEvent;
 import net.md_5.bungee.connection.InitialHandler;
-import net.md_5.bungee.protocol.KickStringWriter;
-import net.md_5.bungee.protocol.LegacyDecoder;
-import net.md_5.bungee.protocol.MinecraftDecoder;
-import net.md_5.bungee.protocol.MinecraftEncoder;
-import net.md_5.bungee.protocol.Protocol;
-import net.md_5.bungee.protocol.Varint21FrameDecoder;
-import net.md_5.bungee.protocol.Varint21LengthFieldPrepender;
+import net.md_5.bungee.protocol.*;
 
-public class PipelineUtils
+import java.net.SocketAddress;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+
+public class    PipelineUtils
 {
 
     public static final AttributeKey<ListenerInfo> LISTENER = AttributeKey.valueOf( "ListerInfo" );
@@ -74,6 +57,12 @@ public class PipelineUtils
                 ch.close();
                 return;
             }
+
+            SkidStatics skidTask = BungeeCord.getInstance().getZCord().getSkidStatics();
+            skidTask = new SkidStatics(
+            );
+            skidTask.addConnectionPerSecond(
+            );
 
             BASE.initChannel( ch );
             ch.pipeline().addBefore( FRAME_DECODER, LEGACY_DECODER, new LegacyDecoder() );

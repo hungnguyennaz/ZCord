@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
 import lombok.Setter;
+import me.hungaz.ZCord.utils.*;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.UserConnection;
 import net.md_5.bungee.api.score.Scoreboard;
@@ -29,10 +30,6 @@ import me.hungaz.ZCord.caching.PacketUtils.KickType;
 import me.hungaz.ZCord.captcha.CaptchaGeneration;
 import me.hungaz.ZCord.captcha.CaptchaGenerationException;
 import me.hungaz.ZCord.config.Settings;
-import me.hungaz.ZCord.utils.GeoIp;
-import me.hungaz.ZCord.utils.ManyChecksUtils;
-import me.hungaz.ZCord.utils.ServerPingUtils;
-import me.hungaz.ZCord.utils.Sql;
 
 
 public class ZCord
@@ -54,6 +51,8 @@ public class ZCord
     private final GeoIp geoIp;
     @Getter
     private final ServerPingUtils serverPingUtils;
+    @Getter
+    private SkidStatics statics;
 
     private final CheckState normalState;
     private final CheckState attackState;
@@ -83,6 +82,8 @@ public class ZCord
         sql = new Sql( this );
         geoIp = new GeoIp( startup );
         serverPingUtils = new ServerPingUtils( this );
+        SkidStatics statics = new SkidStatics();
+        statics.startUpdating();
 
         if ( geoIp.isAvailable() )
         {
@@ -416,5 +417,9 @@ public class ZCord
         CAPTCHA_ON_POSITION_FAILED,
         SUCCESSFULLY,
         FAILED
+    }
+
+    public SkidStatics getSkidStatics() {
+        return statics;
     }
 }
