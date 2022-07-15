@@ -40,12 +40,12 @@ public class Settings extends Config
     public boolean FORCE_CHECK_ON_ATTACK = true;
     @Comment("Whether to show online (include bots) from the filter")
     public boolean SHOW_ONLINE = false;
-    @Comment("How much time the player has to pass the defense. In milliseconds. 1 sec = 1000")
-    public int TIME_OUT = 12700;
+    @Comment("How much time the player has to pass the defense. In milliseconds. 1 sec = 1000. Remember to increase the value when using with Geyser.")
+    public int TIME_OUT = 7272;
     @Comment("Whether to enable fix from 'Team 'xxx' already exist in this scoreboard'")
     public boolean FIX_SCOREBOARD_TEAMS = true;
     @Comment("Should I write the IP addresses of players/bots that failed the check to a file?")
-    public boolean SAVE_FAILED_IPS_TO_FILE = true;
+    public boolean SAVE_FAILED_IPS_TO_FILE = false;
     @Comment("Do you want to log trash stacktraces")
     public boolean LOG_NETTY_STACKTRACE = false;
     @Comment("Do you want to log antibot work? Usefull for large networks")
@@ -68,22 +68,12 @@ public class Settings extends Config
     {
 
         public String PREFIX = "&a&lZ&b&lCord";
-        public String CHECKING = "%prefix%&7>> &aPlease wait...";
         public String CHECKING_CAPTCHA = "%prefix%&7>> &aEnter captcha codes into chat";
-        public String CHECKING_CAPTCHA_WRONG = "%prefix%&7>> &cYou entered the wrong captcha, please try again. &a%s &c%s";
         public String SUCCESSFULLY = "%prefix%&7>> &aDone!";
         public String KICK_MANY_CHECKS = "%prefix%%nl%%nl%&c Suspicious activity detected on your IP%nl%%nl%&6Please try again after 10 minutes.";
         public String KICK_NOT_PLAYER = "%prefix%%nl%%nl%&c Verification failed, you can be a bot%nl%&7&oIf not, please try again.";
         public String KICK_COUNTRY = "%prefix%%nl%%nl%&cYour country isn't allowed on the server. Please report here discord.gg/yourserver";
         public String KICK_BIG_PING = "%prefix%%nl%%nl%&cYour ping is too high to play!";
-        @Comment(
-            {
-            "Title%nl%Subtitle", "Leave blank to disable( Ex: CHECKING_TITLE = \"\" )",
-            "Disable these titles can improve the performance"
-            })
-        public String CHECKING_TITLE = "";
-        public String CHECKING_TITLE_SUS = "";
-        public String CHECKING_TITLE_CAPTCHA = "";
     }
 
     @Comment("Enable/Disable GeoIP checking")

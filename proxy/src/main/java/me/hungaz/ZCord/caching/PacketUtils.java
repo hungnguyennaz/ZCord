@@ -86,9 +86,6 @@ public class PacketUtils
 
         expPackets = new CachedExpPackets();
 
-        titles[0] = new CachedTitle( Settings.IMP.MESSAGES.CHECKING_TITLE, 5, 90, 15 );
-        titles[1] = new CachedTitle( Settings.IMP.MESSAGES.CHECKING_TITLE_CAPTCHA, 5, 35, 10 );
-        titles[2] = new CachedTitle( Settings.IMP.MESSAGES.CHECKING_TITLE_SUS, 5, 20, 10 );
 
         Dimension dimension = Dimension.OVERWORLD;
         int dimensionType = Settings.IMP.DIMENSIONS.TYPE;
@@ -122,11 +119,7 @@ public class PacketUtils
 
         messages = new CachedMessage[]
         {
-            new CachedMessage( Settings.IMP.MESSAGES.CHECKING_CAPTCHA_WRONG.replaceFirst( "%s", "2" ).replaceFirst( "%s", "попытки" ) ),
-            new CachedMessage( Settings.IMP.MESSAGES.CHECKING_CAPTCHA_WRONG.replaceFirst( "%s", "1" ).replaceFirst( "%s", "попытка" ) ),
-            new CachedMessage( Settings.IMP.MESSAGES.CHECKING ),
             new CachedMessage( Settings.IMP.MESSAGES.CHECKING_CAPTCHA ),
-            new CachedMessage( Settings.IMP.MESSAGES.SUCCESSFULLY )
         };
 
 
@@ -139,7 +132,7 @@ public class PacketUtils
         kickMessagesGame.put( KickType.FAILED_FALLING, failedMessage );
         kickMessagesGame.put( KickType.TIMED_OUT, failedMessage );
         kickMessagesGame.put( KickType.COUNTRY, new CachedPacket( createKickPacket( Settings.IMP.MESSAGES.KICK_COUNTRY ), kickGame ) );
-        kickMessagesGame.put( KickType.BIG_PACKET, new CachedPacket( createKickPacket( "§cНе удалось проверить на бота. Пожалуйста сообщите об этом администрации. (Был отправлен большой пакет)" ), kickGame ) );
+        kickMessagesGame.put( KickType.BIG_PACKET, new CachedPacket( createKickPacket( "§cFailed to check for a bot. Please inform the administrators about this. (much packets was sent)" ), kickGame ) );
         kickMessagesLogin.put( KickType.PING, new CachedPacket( createKickPacket( String.join( "", Settings.IMP.SERVER_PING_CHECK.KICK_MESSAGE ) ), kickLogin ) );
         kickMessagesLogin.put( KickType.MANYCHECKS, new CachedPacket( createKickPacket( Settings.IMP.MESSAGES.KICK_MANY_CHECKS ), kickLogin ) );
         kickMessagesLogin.put( KickType.COUNTRY, new CachedPacket( createKickPacket( Settings.IMP.MESSAGES.KICK_COUNTRY ), kickLogin ) );
@@ -327,7 +320,6 @@ public class PacketUtils
             channel.write( getCachedPacket( PacketsPosition.PLAYERPOSANDLOOK ).get( version ), channel.voidPromise() );
         }
         channel.write( getCachedPacket( PacketsPosition.TIME ).get( version ), channel.voidPromise() );
-        //channel.flush(); Не очищяем поскольку это будет в другом месте
     }
 
     public static void kickPlayer(KickType kick, Protocol protocol, ChannelWrapper wrapper, int version)
