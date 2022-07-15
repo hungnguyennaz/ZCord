@@ -68,7 +68,9 @@ public class Settings extends Config
     {
 
         public String PREFIX = "&a&lZ&b&lCord";
+        public String CHECKING = "%prefix%&7>> &aPlease wait...";
         public String CHECKING_CAPTCHA = "%prefix%&7>> &aEnter captcha codes into chat";
+        public String CHECKING_CAPTCHA_WRONG = "%prefix%&7>> &cYou entered the wrong captcha, please try again. &a%s &c%s";
         public String SUCCESSFULLY = "%prefix%&7>> &aDone!";
         public String KICK_MANY_CHECKS = "%prefix%%nl%%nl%&c Suspicious activity detected on your IP%nl%%nl%&6Please try again after 10 minutes.";
         public String KICK_NOT_PLAYER = "%prefix%%nl%%nl%&c Verification failed, you can be a bot%nl%&7&oIf not, please try again.";

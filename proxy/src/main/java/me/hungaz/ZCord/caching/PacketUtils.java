@@ -87,6 +87,7 @@ public class PacketUtils
         expPackets = new CachedExpPackets();
 
 
+
         Dimension dimension = Dimension.OVERWORLD;
         int dimensionType = Settings.IMP.DIMENSIONS.TYPE;
         if ( dimensionType == 1 )
@@ -119,7 +120,11 @@ public class PacketUtils
 
         messages = new CachedMessage[]
         {
+            new CachedMessage( Settings.IMP.MESSAGES.CHECKING_CAPTCHA_WRONG.replaceFirst( "%s", "2" ).replaceFirst( "%s", "попытки" ) ),
+            new CachedMessage( Settings.IMP.MESSAGES.CHECKING_CAPTCHA_WRONG.replaceFirst( "%s", "1" ).replaceFirst( "%s", "попытка" ) ),
+            new CachedMessage( Settings.IMP.MESSAGES.CHECKING ),
             new CachedMessage( Settings.IMP.MESSAGES.CHECKING_CAPTCHA ),
+            new CachedMessage( Settings.IMP.MESSAGES.SUCCESSFULLY )
         };
 
 

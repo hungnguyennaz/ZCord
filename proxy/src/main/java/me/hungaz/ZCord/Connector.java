@@ -54,7 +54,7 @@ public class Connector extends MoveHandler
     @Getter
     private Channel channel;
     private String captchaAnswer;
-    private int aticks = 0, sentPings = 0;
+    private int aticks = 0, sentPings = 0, attemps = 2;
     @Getter
     private long joinTime = System.currentTimeMillis();
     private long lastSend = 0, totalping = 9999;
@@ -288,6 +288,10 @@ public class Connector extends MoveHandler
             if ( message.replace( "/", "" ).equals( captchaAnswer ) )
             {
                 completeCheck();
+            } else if ( --attemps != 0 )
+            {
+                sendMessage( ( attemps == 1 ? PacketsPosition.CAPTCHA_FAILED_2_MSG : PacketsPosition.CAPTCHA_FAILED_1_MSG ) );
+                sendCaptcha();
             } else
             {
                 failed( KickType.FAILED_CAPTCHA, "Failed captcha check" );
