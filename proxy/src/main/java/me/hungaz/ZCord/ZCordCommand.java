@@ -149,7 +149,7 @@ public class ZCordCommand extends Command
             Files.write( outFile, out, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING );
         } catch ( IOException e )
         {
-            BungeeCord.getInstance().getLogger().log( Level.WARNING, "[ZCord] Could not export ip's to file", e );
+            BungeeCord.getInstance().getLogger().log( Level.WARNING, "[ZCord] Could not export ips to file", e );
         }
     }
 
