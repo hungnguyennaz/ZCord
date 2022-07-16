@@ -17,7 +17,7 @@ public class CommandBungee extends Command
     {
         sender.sendMessage( "§8=================================================" );
         sender.sendMessage( "§bThis server is using §cZCord" );
-        sender.sendMessage( "§bA proxy software made by a very handsome guy named §eHungNguyenAZ" );
+        sender.sendMessage( "§bA proxy software made by §eHungNguyenAZ & xIsm4" );
         sender.sendMessage( "§8=================================================" );
     }
 }
