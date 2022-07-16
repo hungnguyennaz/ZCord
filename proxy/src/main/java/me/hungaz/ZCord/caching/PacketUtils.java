@@ -145,7 +145,7 @@ public class PacketUtils
     private static DefinedPacket createPluginMessage()
     {
         ByteBuf brand = ByteBufAllocator.DEFAULT.heapBuffer();
-        DefinedPacket.writeString( "ZCord (HungNguyenAZ)", brand );
+        DefinedPacket.writeString( "ZCord", brand );
         DefinedPacket packet = new PluginMessage( "MC|Brand", DefinedPacket.toArray( brand ), false );
         brand.release();
         return packet;
