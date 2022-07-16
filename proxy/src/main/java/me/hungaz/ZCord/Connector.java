@@ -75,7 +75,7 @@ public class Connector extends MoveHandler
         this.userConnection.setDimension( 0 );
         this.ip = IPUtils.getAddress( this.userConnection ).getHostAddress();
 
-        if ( Settings.IMP.PROTECTION.SKIP_GEYSER && ZCord.isGeyser( userConnection.getPendingConnection() ) && handshake.getRequestedProtocol() != ProtocolConstants.MINECRAFT_1_19)
+        if ( Settings.IMP.PROTECTION.SKIP_GEYSER && ZCord.isGeyser( userConnection.getPendingConnection() ) && handshake.getRequestedProtocol() != ProtocolConstants.MINECRAFT_1_19 && !ZCord.isnAntiBot())
         {
             this.state = CheckState.ONLY_CAPTCHA;
         }

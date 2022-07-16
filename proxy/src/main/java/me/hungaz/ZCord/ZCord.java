@@ -19,6 +19,7 @@ import lombok.Setter;
 import me.hungaz.ZCord.utils.*;
 import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.UserConnection;
+import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.score.Scoreboard;
 import net.md_5.bungee.compress.PacketDecompressor;
 import net.md_5.bungee.connection.InitialHandler;
@@ -284,6 +285,15 @@ public class ZCord
     }
 
     /**
+     * Would add logic for nAntiBot plugin
+     * @return true if nantibot is on usage
+     */
+    public boolean isnAntiBot()
+    {
+        return ProxyServer.getInstance().getPluginManager().getPlugin("nAntiBot") != null;
+    }
+
+    /**
      * Проверяет, находиться ли игрок на проверке
      *
      * @param name Имя игрока которого нужно искать на проверке
@@ -418,6 +428,8 @@ public class ZCord
         SUCCESSFULLY,
         FAILED
     }
+
+
 
     public SkidStatics getSkidStatics() {
         return statics;
