@@ -59,6 +59,8 @@ public class    PipelineUtils
             }
 
             SkidStatics skidTask = BungeeCord.getInstance().getZCord().getSkidStatics();
+            skidTask = new SkidStatics(
+            );
             skidTask.addConnectionPerSecond(
             );
 
