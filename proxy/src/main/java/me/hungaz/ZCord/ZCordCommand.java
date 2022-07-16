@@ -39,7 +39,7 @@ public class ZCordCommand extends Command
         {
             sender.sendMessage( "§8------------------------------------" );
             sender.sendMessage( "§b> Zcord reload §6- §aReload the config" );
-            sender.sendMessage( "§b> ZCord stat §6- §aShow stats" );
+            sender.sendMessage( "§b> ZCord stat §6- §aShow stats (can only be executed by a player)" );
             sender.sendMessage( "§b> ZCord export §6- §aUpload a list of players who have passed verification" );
             sender.sendMessage( "§b> ZCord protection on/off §6- §aOn/off underattacking mode" );
             sender.sendMessage( "§b> ZCord generate §6- §aGenerate a new captcha" );
