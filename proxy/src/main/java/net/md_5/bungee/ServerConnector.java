@@ -101,8 +101,6 @@ public class ServerConnector extends PacketHandler
     {
         this.ch = channel;
 
-        channel.getHandle().pipeline().get( Varint21FrameDecoder.class ).setFromBackend( true );
-
         this.handshakeHandler = new ForgeServerHandler( user, ch, target );
         Handshake originalHandshake = user.getPendingConnection().getHandshake();
         Handshake copiedHandshake = new Handshake( originalHandshake.getProtocolVersion(), originalHandshake.getHost(), originalHandshake.getPort(), 2 );

@@ -374,8 +374,6 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 bungee.getZCord().getServerPingUtils().add( getAddress().getAddress() ); //ZCord
                 break;
             case 2:
-                //ZCord
-                ch.getHandle().pipeline().get( Varint21FrameDecoder.class ).set119( handshake.getProtocolVersion() == ProtocolConstants.MINECRAFT_1_19 );
                 // Login
                 bungee.getLogger().log( Level.INFO, "{0} has connected", this.toString() ); // ZCord, use toString()
                 thisState = State.USERNAME;

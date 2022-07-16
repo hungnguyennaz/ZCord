@@ -174,7 +174,6 @@ public class BungeeServerInfo implements ServerInfo
             {
                 if ( future.isSuccess() )
                 {
-                    future.channel().pipeline().get( Varint21FrameDecoder.class ).setFromBackend( true ); //ZCord
                     future.channel().pipeline().get( HandlerBoss.class ).setHandler( new PingHandler( BungeeServerInfo.this, callback, protocolVersion ) );
                 } else
                 {
