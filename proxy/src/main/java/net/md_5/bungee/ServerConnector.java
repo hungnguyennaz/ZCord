@@ -282,7 +282,7 @@ public class ServerConnector extends PacketHandler
                 user.setNeedLogin( false ); //ZCord
                 ByteBuf brand = ByteBufAllocator.DEFAULT.heapBuffer();
                 DefinedPacket.writeString( "ZCord", brand );
-                user.unsafe().sendPacket( new PluginMessage( user.getPendingConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_13 ? "minecraft:brand" : "MC|Brand", brand, handshakeHandler.isServerForge() ) );
+                user.unsafe().sendPacket( new PluginMessage( user.getPendingConnection().getVersion() >= ProtocolConstants.MINECRAFT_1_13 ? "minecraft:brand" : "MC|Brand", DefinedPacket.toArray( brand ), handshakeHandler.isServerForge() ) );
                 brand.release();
             }
 
@@ -334,7 +334,6 @@ public class ServerConnector extends PacketHandler
             }
 
             user.setServerEntityId( login.getEntityId() );
-            
             // Waterfall start
             if ( user.isDisableEntityMetadataRewrite() ) {
                 // Ensure that we maintain consistency

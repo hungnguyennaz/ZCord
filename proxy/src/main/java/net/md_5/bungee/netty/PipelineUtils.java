@@ -31,7 +31,7 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-public class    PipelineUtils
+public class PipelineUtils
 {
 
     public static final AttributeKey<ListenerInfo> LISTENER = AttributeKey.newInstance( "ListerInfo" );
@@ -90,13 +90,9 @@ public class    PipelineUtils
             {
                 ch.pipeline().addFirst( new HAProxyMessageDecoder() );
             }
-        }
-        // FlameCord - Close on exception caught
-        @Override
-        public void exceptionCaught(final ChannelHandlerContext ctx, final Throwable cause) throws Exception {
-            cause.printStackTrace();
+            }); // Waterfall
 
-            ctx.close();
+            BungeeCord.getInstance().getPluginManager().callEvent(connectionInitEvent);
         }
     };
     public static final Base BASE = new Base();
