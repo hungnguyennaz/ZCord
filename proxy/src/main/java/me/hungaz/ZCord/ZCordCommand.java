@@ -24,7 +24,7 @@ public class ZCordCommand extends Command
 
     public ZCordCommand()
     {
-        super( "ZCord");
+        super( "zcord");
     }
 
     @Override
