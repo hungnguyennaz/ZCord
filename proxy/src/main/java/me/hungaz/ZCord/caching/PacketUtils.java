@@ -39,7 +39,6 @@ public class PacketUtils
     /**
      * 0 - Checking_fall, 1 - checking_captcha, 2 - sus
      */
-    public static CachedTitle[] titles = new CachedTitle[3];
     public static CachedMessage[] messages = new CachedMessage[3];
 
     public static ByteBuf createPacket(DefinedPacket packet, int id, int protocol)
@@ -62,13 +61,6 @@ public class PacketUtils
             if ( packet != null )
             {
                 packet.release();
-            }
-        }
-        for ( CachedTitle title : titles )
-        {
-            if ( title != null )
-            {
-                title.release();
             }
         }
         for ( CachedPacket packet : kickMessagesGame.values() )

@@ -106,7 +106,7 @@ public class    PipelineUtils
         {
             ProxyServer.getInstance().getLogger().info( "You're on Linux. That's nice, attempting to use enhanced EpollEventLoop" );
 
-            if (epoll == Epoll.isAvailable())
+            if ( epoll = Epoll.isAvailable() )
             {
                 ProxyServer.getInstance().getLogger().info( "Epoll is working, utilising it!" );
             } else

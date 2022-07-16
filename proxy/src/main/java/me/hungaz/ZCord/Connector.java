@@ -92,12 +92,10 @@ public class Connector extends MoveHandler
         if ( state == CheckState.CAPTCHA_ON_POSITION_FAILED )
         {
             PacketUtils.spawnPlayer( channel, userConnection.getPendingConnection().getVersion(), false, false );
-            PacketUtils.titles[0].writeTitle( channel, version );
         } else
         {
             PacketUtils.spawnPlayer( channel, userConnection.getPendingConnection().getVersion(), state == CheckState.ONLY_CAPTCHA, true );
             sendCaptcha();
-            PacketUtils.titles[1].writeTitle( channel, version );
         }
         sendPing();
         LOGGER.log( Level.INFO, this + " has connected" ); //#toString is not needed
@@ -187,7 +185,6 @@ public class Connector extends MoveHandler
         }
 
         state = CheckState.SUCCESSFULLY;
-        PacketUtils.titles[2].writeTitle( channel, version );
         channel.flush();
         ZCord.removeConnection( null, this );
         sendMessage( PacketsPosition.CHECK_SUS_MSG );
@@ -374,7 +371,6 @@ public class Connector extends MoveHandler
         state = CheckState.ONLY_CAPTCHA;
         joinTime = System.currentTimeMillis() + 3500;
         channel.write( PacketUtils.getCachedPacket( PacketsPosition.SETEXP_RESET ).get( version ), channel.voidPromise() );
-        PacketUtils.titles[1].writeTitle( channel, version );
         resetPosition( true );
         sendCaptcha();
     }
