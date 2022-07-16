@@ -44,8 +44,6 @@ public class Settings extends Config
     public int TIME_OUT = 7272;
     @Comment("Whether to enable fix from 'Team 'xxx' already exist in this scoreboard'")
     public boolean FIX_SCOREBOARD_TEAMS = true;
-    @Comment("Should I write the IP addresses of players/bots that failed the check to a file?")
-    public boolean SAVE_FAILED_IPS_TO_FILE = false;
     @Comment("Do you want to log trash stacktraces")
     public boolean LOG_NETTY_STACKTRACE = false;
     @Comment("Do you want to log antibot work? Usefull for large networks")
