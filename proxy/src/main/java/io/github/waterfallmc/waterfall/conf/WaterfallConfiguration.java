@@ -29,7 +29,6 @@ public class WaterfallConfiguration extends Configuration {
     private boolean useNettyDnsResolver = true;
 
 
-    private boolean disableEntityMetadataRewrite = false;
     private boolean disableTabListRewrite = true;
 
     /*
@@ -76,11 +75,6 @@ public class WaterfallConfiguration extends Configuration {
     @Override
     public boolean isUseNettyDnsResolver() {
         return useNettyDnsResolver;
-    }
-
-    @Override
-    public boolean isDisableEntityMetadataRewrite() {
-        return disableEntityMetadataRewrite;
     }
 
     @Override
