@@ -148,11 +148,6 @@ public interface ProxyConfig
     boolean isUseNettyDnsResolver();
 
     /**
-     * @return Should we disable entity metadata rewriting?
-     */
-    boolean isDisableEntityMetadataRewrite();
-
-    /**
      * Whether tablist rewriting should be disabled or not
      * @return {@code true} if tablist rewriting is disabled, {@code false} otherwise
      */
