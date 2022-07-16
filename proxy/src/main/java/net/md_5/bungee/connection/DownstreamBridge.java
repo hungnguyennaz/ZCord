@@ -181,8 +181,14 @@ public class DownstreamBridge extends PacketHandler
     @Override
     public void handle(PlayerListItem playerList) throws Exception
     {
-        con.getTabListHandler().onUpdate( TabList.rewrite( playerList ) );
-        throw CancelSendSignal.INSTANCE; // Always throw because of profile rewriting
+        //Waterfall start
+        boolean skipRewrites = bungee.getConfig().isDisableTabListRewrite();
+        con.getTabListHandler().onUpdate( skipRewrites ? playerList : TabList.rewrite( playerList ) );
+        if ( !skipRewrites )
+        {
+            throw CancelSendSignal.INSTANCE; // Only throw if profile rewriting is enabled
+        }
+        // Waterfall end
     }
 
     @Override
@@ -291,7 +297,6 @@ public class DownstreamBridge extends PacketHandler
     @SuppressWarnings("checkstyle:avoidnestedblocks")
     public void handle(PluginMessage pluginMessage) throws Exception
     {
-        DataInput in = pluginMessage.getStream();
         PluginMessageEvent event = new PluginMessageEvent( server, con, pluginMessage.getTag(), pluginMessage.getData().clone() );
 
         if ( bungee.getPluginManager().callEvent( event ).isCancelled() )
@@ -309,7 +314,7 @@ public class DownstreamBridge extends PacketHandler
 
             brand = ByteBufAllocator.DEFAULT.heapBuffer();
             DefinedPacket.writeString( bungee.getName() + " <- " + serverBrand, brand );
-            pluginMessage.setData( DefinedPacket.toArray( brand ) );
+            pluginMessage.setData( brand );
             brand.release();
             // changes in the packet are ignored so we need to send it manually
             con.unsafe().sendPacket( pluginMessage );
@@ -318,6 +323,7 @@ public class DownstreamBridge extends PacketHandler
 
         if ( pluginMessage.getTag().equals( "BungeeCord" ) )
         {
+            DataInput in = pluginMessage.getStream();
             ByteArrayDataOutput out = ByteStreams.newDataOutput();
             String subChannel = in.readUTF();
 

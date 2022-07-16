@@ -10,6 +10,9 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.github.waterfallmc.waterfall.conf.WaterfallConfiguration;
+import io.github.waterfallmc.waterfall.event.ProxyExceptionEvent;
+import io.github.waterfallmc.waterfall.exception.ProxyPluginEnableDisableException;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -113,7 +116,7 @@ public class BungeeCord extends ProxyServer
      * Configuration.
      */
     @Getter
-    public final Configuration config = new Configuration();
+    public final Configuration config = new WaterfallConfiguration();
     /**
      * Localization bundle.
      */
@@ -306,17 +309,16 @@ public class BungeeCord extends ProxyServer
             registerChannel( ForgeConstants.FML_HANDSHAKE_TAG );
             registerChannel( ForgeConstants.FORGE_REGISTER );
 
-            getLogger().warning( "MinecraftForge support is currently unmaintained and may have unresolved issues. Please use at your own risk." );
         }
 
         isRunning = true;
 
         if ( me.hungaz.utils.ProxyEnvironment.userIsRootOrAdmin() ) {
-            getLogger().warning("====================================");
-            getLogger().warning("Great, you're running this proxy on Root/Administrator environment.");
-            getLogger().warning("We can use some Linux/Unix optimizations to run faster, more optimized.");
-            getLogger().warning("BUT DON'T RUN ZCORD ON WINDOWS, WE DON'T RECOMMENDED.");
-            getLogger().warning("====================================");
+            getLogger().info("====================================");
+            getLogger().info("Great, you're running this proxy on Root/Administrator environment.");
+            getLogger().info("We can use some Linux/Unix optimizations to run faster, more optimized.");
+            getLogger().info("BUT DON'T RUN ZCORD ON WINDOWS, WE DON'T RECOMMENDED.");
+            getLogger().info("====================================");
         }
 
         pluginManager.enablePlugins();
@@ -509,7 +511,11 @@ public class BungeeCord extends ProxyServer
                 }
             } catch ( Throwable t )
             {
-                getLogger().log( Level.SEVERE, "Exception disabling plugin " + plugin.getDescription().getName(), t );
+                // Waterfall start - throw exception event
+                String msg = "Exception disabling plugin " + plugin.getDescription().getName();
+                getLogger().log( Level.SEVERE, msg, t );
+                pluginManager.callEvent( new ProxyExceptionEvent( new ProxyPluginEnableDisableException( msg, t, plugin) ) );
+                // Waterfall end
             }
             getScheduler().cancel( plugin );
             plugin.getExecutorService().shutdownNow();
@@ -596,7 +602,9 @@ public class BungeeCord extends ProxyServer
         String translation = "<translation '" + name + "' missing>";
         try
         {
-            translation = MessageFormat.format( customBundle != null && customBundle.containsKey( name ) ? customBundle.getString( name ) : baseBundle.getString( name ), args );
+            final String string = customBundle != null && customBundle.containsKey( name ) ? customBundle.getString( name ) : baseBundle.getString( name );
+
+            translation = ( args.length == 0 ) ? string : MessageFormat.format( string, args );
         } catch ( MissingResourceException ex )
         {
         }
@@ -735,7 +743,7 @@ public class BungeeCord extends ProxyServer
     @Override
     public String getGameVersion()
     {
-        return ProtocolConstants.SUPPORTED_VERSIONS.get( 0 ) + "-" + ProtocolConstants.SUPPORTED_VERSIONS.get( ProtocolConstants.SUPPORTED_VERSIONS.size() - 1 );
+        return getConfig().getGameVersion(); // Waterfall
     }
 
     @Override

@@ -1,6 +1,7 @@
 package net.md_5.bungee.netty;
 
 import com.google.common.base.Preconditions;
+import io.github.waterfallmc.waterfall.event.ConnectionInitEvent;
 import io.netty.buffer.PooledByteBufAllocator;
 import io.netty.channel.*;
 import io.netty.channel.epoll.*;
@@ -33,7 +34,7 @@ import java.util.logging.Level;
 public class    PipelineUtils
 {
 
-    public static final AttributeKey<ListenerInfo> LISTENER = AttributeKey.valueOf( "ListerInfo" );
+    public static final AttributeKey<ListenerInfo> LISTENER = AttributeKey.newInstance( "ListerInfo" );
 
     public static final ChannelInitializer<Channel> SERVER_CHILD = new ChannelInitializer<Channel>()
     {
@@ -64,7 +65,21 @@ public class    PipelineUtils
             skidTask.addConnectionPerSecond(
             );
 
+            ConnectionInitEvent connectionInitEvent = new ConnectionInitEvent(ch.remoteAddress(), listener, (result, throwable) -> { // Waterfall
+
+            if (result.isCancelled()) {
+                ch.close();
+                return;
+            }
+
+
+            try {
             BASE.initChannel( ch );
+            } catch (Exception e) {
+                 e.printStackTrace();
+                ch.close();
+                return;
+            }
             ch.pipeline().addBefore( FRAME_DECODER, LEGACY_DECODER, new LegacyDecoder() );
             ch.pipeline().addAfter( FRAME_DECODER, PACKET_DECODER, new MinecraftDecoder( Protocol.HANDSHAKE, true, ProxyServer.getInstance().getProtocolVersion() ) );
             ch.pipeline().addAfter( FRAME_PREPENDER, PACKET_ENCODER, new MinecraftEncoder( Protocol.HANDSHAKE, true, ProxyServer.getInstance().getProtocolVersion() ) );

@@ -44,7 +44,7 @@ public class ChannelWrapper
         pipeline.get( MinecraftEncoder.class ).setProtocol( protocol );
     }
 
-    //ZCord start
+    // ZCord start
     public void setDecoderProtocol(Protocol protocol)
     {
         ch.pipeline().get( MinecraftDecoder.class ).setProtocol( protocol );
@@ -54,7 +54,7 @@ public class ChannelWrapper
     {
         ch.pipeline().get( MinecraftEncoder.class ).setProtocol( protocol );
     }
-    //ZCord end
+    // ZCord end
 
     public void setVersion(int protocol)
     {
@@ -153,8 +153,8 @@ public class ChannelWrapper
 
         if ( pipeline.get( PacketDecompressor.class ) == null && compressionThreshold != -1 )
         {
-            PacketDecompressor packetDecompressor = new PacketDecompressor(); //ZCord
-            packetDecompressor.setThreshold( compressionThreshold ); //ZCord
+            PacketDecompressor packetDecompressor = new PacketDecompressor(); // ZCord
+            packetDecompressor.setThreshold( compressionThreshold ); // ZCord
             addBefore( PipelineUtils.PACKET_DECODER, "decompress", packetDecompressor );
         }
         if ( compressionThreshold == -1 )

@@ -93,8 +93,8 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
                     // Short response
                     writeString(out, listener.getMotd()); // MOTD
                     writeString(out, "SMP"); // Game Type
-                    writeString(out, "ZCord"); // World Name //ZCord
-                    writeNumber(out, bungee.getOnlineCountBF(true)); // Online Count//ZCord
+                    writeString(out, "ZCord"); // World Name // ZCord
+                    writeNumber(out, bungee.getOnlineCountBF(true)); // Online Count// ZCord
                     writeNumber(out, listener.getMaxPlayers()); // Max Players
                     writeShort(out, listener.getHost().getPort()); // Port
                     writeString(out, listener.getHost().getHostString()); // IP
@@ -110,11 +110,11 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
                     data.put("gametype", "SMP");
                     // Start Extra Info
                     data.put("game_id", "MINECRAFT");
-                    data.put("version", bungee.getCustomBungeeName()); //ZCord
+                    data.put("version", bungee.getCustomBungeeName()); // ZCord
                     data.put("plugins", "");
                     // End Extra Info
-                    data.put("map", "ZCord by HungNguyenAZ"); //ZCord
-                    data.put("numplayers", Integer.toString(bungee.getOnlineCountBF(true))); //ZCord
+                    data.put("map", "ZCord by HungNguyenAZ"); // ZCord
+                    data.put("numplayers", Integer.toString(bungee.getOnlineCountBF(true))); // ZCord
                     data.put("maxplayers", Integer.toString(listener.getMaxPlayers()));
                     data.put("hostport", Integer.toString(listener.getHost().getPort()));
                     data.put("hostip", listener.getHost().getHostString());
@@ -142,7 +142,7 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        ctx.close(); //ZCord closes connection if query packet throwed an exception before login
+        ctx.close(); // ZCord closes connection if query packet throwed an exception before login
         bungee.getLogger().log(Level.WARNING, "Error whilst handling query packet from " + ctx.channel().remoteAddress(), cause);
     }
 

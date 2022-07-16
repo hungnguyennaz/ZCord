@@ -12,4 +12,18 @@ public abstract class Event
     public void postCall()
     {
     }
+    // Waterfall start - Add callEvent() shortcut, borrowed from PaperMC/Paper
+    /**
+     * Calls the event and tests if cancelled.
+     *
+     * @return false if event was cancelled, if cancellable. otherwise true.
+     */
+    public final boolean callEvent() {
+        net.md_5.bungee.api.ProxyServer.getInstance().getPluginManager().callEvent(this);
+        if (this instanceof Cancellable) {
+            return !((Cancellable) this).isCancelled();
+        }
+        return true;
+    }
+    // Waterfall end
 }

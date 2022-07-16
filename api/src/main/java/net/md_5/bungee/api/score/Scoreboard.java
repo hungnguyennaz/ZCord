@@ -72,11 +72,11 @@ public class Scoreboard
     public void addTeam(Team team)
     {
         Preconditions.checkNotNull( team, "team" );
-        //ZCord start
+        // ZCord start
         if ( !DISABLE_DUBLICATE )
         {
             Preconditions.checkArgument( !teams.containsKey( team.getName() ), "Team %s already exists in this scoreboard", team.getName() );
-        } //ZCord end
+        } // ZCord end
         teams.put( team.getName(), team );
     }
 

@@ -28,7 +28,7 @@ import net.md_5.bungee.api.chat.hover.content.TextSerializer;
 public class ComponentSerializer implements JsonDeserializer<BaseComponent>
 {
 
-    @Getter //ZCord
+    @Getter // ZCord
     private static final JsonParser JSON_PARSER = new JsonParser();
     private static final Gson gson = new GsonBuilder().
             registerTypeAdapter( BaseComponent.class, new ComponentSerializer() ).

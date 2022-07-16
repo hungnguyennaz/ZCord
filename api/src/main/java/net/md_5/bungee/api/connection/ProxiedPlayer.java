@@ -126,6 +126,10 @@ public interface ProxiedPlayer extends Connection, CommandSender
      */
     void connect(ServerInfo target, Callback<Boolean> callback);
 
+    void connect(ServerInfo target, Callback<Boolean> callback, boolean retry);
+
+    void connect(ServerInfo target, Callback<Boolean> callback, boolean retry, int timeout);
+
     /**
      * Connects / transfers this user to the specified connection, gracefully
      * closing the current one. Depending on the implementation, this method
@@ -138,6 +142,8 @@ public interface ProxiedPlayer extends Connection, CommandSender
      * @param reason the reason for connecting to the new server
      */
     void connect(ServerInfo target, Callback<Boolean> callback, ServerConnectEvent.Reason reason);
+
+    void connect(ServerInfo target, Callback<Boolean> callback, boolean retry, ServerConnectEvent.Reason reason, int timeout);
 
     /**
      * Connects / transfers this user to the specified connection, gracefully

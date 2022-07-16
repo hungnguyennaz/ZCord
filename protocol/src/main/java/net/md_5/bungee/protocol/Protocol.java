@@ -829,9 +829,12 @@ public enum Protocol
             {
                 throw new BadPacketException( "Unsupported protocol version" );
             }
-            Preconditions.checkArgument( protocolData.packetMap.containsKey( packet ), "Cannot get ID for packet %s in phase %s with direction %s", packet, protocolPhase, direction );
+            // Waterfall start
+            final int packetId = protocolData.packetMap.get(packet);
+            Preconditions.checkArgument( packetId >= 0, "Cannot get ID for packet %s in phase %s with direction %s for protocol version %s", packet, protocolPhase, direction, version ); // Waterfall - add version
      
-            return protocolData.packetMap.get( packet );
+            return packetId;
+            // Waterfall end
         }
     }
 }

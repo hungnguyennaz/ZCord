@@ -33,7 +33,7 @@ public abstract class PacketHandler extends net.md_5.bungee.protocol.AbstractPac
     {
     }
 
-    public void handlerChanged()//ZCord
+    public void handlerChanged()// ZCord
     {
     }
 }

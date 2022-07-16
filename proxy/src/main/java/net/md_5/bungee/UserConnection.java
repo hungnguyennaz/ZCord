@@ -266,9 +266,20 @@ public final class UserConnection implements ProxiedPlayer
 
     public void connect(ServerInfo info, final Callback<Boolean> callback, final boolean retry, ServerConnectEvent.Reason reason)
     {
+        // Waterfall start
+        connect(info, callback, retry, reason, bungee.getConfig().getServerConnectTimeout());
+    }
+    public void connect(ServerInfo info, final Callback<Boolean> callback, final boolean retry, int timeout) {
+        connect(info, callback, retry, ServerConnectEvent.Reason.PLUGIN, timeout);
+    }
+
+    public void connect(ServerInfo info, final Callback<Boolean> callback, final boolean retry, ServerConnectEvent.Reason reason, final int timeout)
+    {
+        // Waterfall end
         Preconditions.checkNotNull( info, "info" );
 
         ServerConnectRequest.Builder builder = ServerConnectRequest.builder().retry( retry ).reason( reason ).target( info );
+        builder.connectTimeout(timeout); // Waterfall
         if ( callback != null )
         {
             // Convert the Callback<Boolean> to be compatible with Callback<Result> from ServerConnectRequest.
@@ -372,7 +383,7 @@ public final class UserConnection implements ProxiedPlayer
                         if ( request.isRetry() && def != null && ( getServer() == null || def != getServer().getInfo() ) )
                         {
                             sendMessage( bungee.getTranslation( "fallback_lobby" ) );
-                            connect( def, null, true, ServerConnectEvent.Reason.LOBBY_FALLBACK );
+                            connect( def, null, true, ServerConnectEvent.Reason.LOBBY_FALLBACK, request.getConnectTimeout() ); // Waterfall
                         } else if ( dimensionChange )
                         {
                             disconnect( bungee.getTranslation( "fallback_kick", future.cause().getClass().getName() ) );

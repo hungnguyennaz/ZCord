@@ -54,7 +54,7 @@ public abstract class AbstractPacketHandler
     {
     }
 
-    //ZCord statrt
+    // ZCord statrt
     public void handle(Player player) throws Exception
     {
     }
@@ -70,7 +70,7 @@ public abstract class AbstractPacketHandler
     public void handle(PlayerPositionAndLook posRot) throws Exception
     {
     }
-    //ZCord end
+    // ZCord end
 
     public void handle(TabCompleteResponse tabResponse) throws Exception
     {

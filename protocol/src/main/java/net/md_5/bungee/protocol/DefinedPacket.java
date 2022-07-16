@@ -62,6 +62,20 @@ public abstract class DefinedPacket
         return s;
     }
 
+    // Waterfall start
+    public static void writeString(String s, final int maxLength, ByteBuf buf)
+    {
+        if ( s.length() > maxLength )
+        {
+            throw new OverflowPacketException( String.format( "Cannot send string longer than %s (got %s characters)", maxLength, s.length() ) );
+        }
+
+        byte[] b = s.getBytes( Charsets.UTF_8 );
+        writeVarInt( b.length, buf );
+        buf.writeBytes( b );
+    }
+    // Waterfall end
+    
     public static void writeArray(byte[] b, ByteBuf buf)
     {
         if ( b.length > Short.MAX_VALUE )
