@@ -129,7 +129,7 @@ public class PacketUtils
         kickMessagesGame.put( KickType.FAILED_FALLING, failedMessage );
         kickMessagesGame.put( KickType.TIMED_OUT, failedMessage );
         kickMessagesGame.put( KickType.COUNTRY, new CachedPacket( createKickPacket( Settings.IMP.MESSAGES.KICK_COUNTRY ), kickGame ) );
-        kickMessagesGame.put( KickType.BIG_PACKET, new CachedPacket( createKickPacket( "§cFailed to check for a bot. Please inform the administrators about this. (much packets was sent)" ), kickGame ) );
+        kickMessagesGame.put( KickType.BIG_PACKET, new CachedPacket( createKickPacket( Settings.IMP.MESSAGES.KICK_BIG_PING ), kickGame ) );
         kickMessagesLogin.put( KickType.PING, new CachedPacket( createKickPacket( String.join( "", Settings.IMP.SERVER_PING_CHECK.KICK_MESSAGE ) ), kickLogin ) );
         kickMessagesLogin.put( KickType.MANYCHECKS, new CachedPacket( createKickPacket( Settings.IMP.MESSAGES.KICK_MANY_CHECKS ), kickLogin ) );
         kickMessagesLogin.put( KickType.COUNTRY, new CachedPacket( createKickPacket( Settings.IMP.MESSAGES.KICK_COUNTRY ), kickLogin ) );
