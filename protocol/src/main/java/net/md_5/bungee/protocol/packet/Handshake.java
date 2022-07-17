@@ -16,10 +16,10 @@ import net.md_5.bungee.protocol.ProtocolConstants.Direction;
 public class Handshake extends DefinedPacket
 {
 
-    // ZCord - see https://github.com/PaperMC/Waterfall/blob/master/BungeeCord-Patches/0060-Additional-DoS-mitigations.patch
+    //ZCord - see https://github.com/PaperMC/Waterfall/blob/master/BungeeCord-Patches/0060-Additional-DoS-mitigations.patch
     public static final int EXPECTED_MAX_LENGTH = 5 + ( ( 255 * 4 + 3 ) + 5 ) + 2 + 1;
     public static final int EXPECTED_MIN_LENGTH = 1 + 1 + 2 + 1;
-    // ZCord end
+    //ZCord end
 
     private int protocolVersion;
     private String host;
@@ -29,7 +29,7 @@ public class Handshake extends DefinedPacket
     @Override
     public void read(ByteBuf buf)
     {
-        DefinedPacket.doLengthSanityChecks( buf, this, Direction.TO_SERVER, -1, EXPECTED_MIN_LENGTH, EXPECTED_MAX_LENGTH ); // ZCord
+        DefinedPacket.doLengthSanityChecks( buf, this, Direction.TO_SERVER, -1, EXPECTED_MIN_LENGTH, EXPECTED_MAX_LENGTH ); //ZCord
         protocolVersion = readVarInt( buf );
         host = readString( buf, 255 );
         port = buf.readUnsignedShort();

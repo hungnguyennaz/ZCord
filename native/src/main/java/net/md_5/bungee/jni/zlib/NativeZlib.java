@@ -39,11 +39,11 @@ public class NativeZlib implements BungeeZlib
     @Override
     public void process(ByteBuf in, ByteBuf out) throws DataFormatException
     {
-        process( in, out, false ); // ZCord
+        process( in, out, false ); //ZCord
     }
 
     @Override
-    public void process(ByteBuf in, ByteBuf out, boolean preallocatedBuffer) throws DataFormatException // ZCord
+    public void process(ByteBuf in, ByteBuf out, boolean preallocatedBuffer) throws DataFormatException //ZCord
     {
         // Smoke tests
         in.memoryAddress();
@@ -53,10 +53,10 @@ public class NativeZlib implements BungeeZlib
         while ( !nativeCompress.finished && ( compress || in.isReadable() ) )
         {
 
-            if ( !preallocatedBuffer ) // ZCord
+            if ( !preallocatedBuffer ) //ZCord
             {
                 out.ensureWritable( 8192 );
-            } // ZCord
+            } //ZCord
 
             int processed = nativeCompress.process( ctx, in.memoryAddress() + in.readerIndex(), in.readableBytes(), out.memoryAddress() + out.writerIndex(), out.writableBytes(), compress );
 

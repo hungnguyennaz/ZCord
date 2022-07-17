@@ -26,7 +26,7 @@ public class MinecraftDecoder extends MessageToMessageDecoder<ByteBuf> {
             return;
         }
 
-        // ZCord start
+        //ZCord start
         if (!server && in.readableBytes() == 0) //Fix empty packet from server
         {
             return;
@@ -37,21 +37,21 @@ public class MinecraftDecoder extends MessageToMessageDecoder<ByteBuf> {
         if (packetId < 0 || packetId > Protocol.MAX_PACKET_ID) {
             throw new FastBadPacketException("[" + ctx.channel().remoteAddress() + "] <-> MinecraftDecoder received invalid packet id " + packetId);
         }
-        // ZCord end
+        //ZCord end
         Protocol.DirectionData prot = (server) ? protocol.TO_SERVER : protocol.TO_CLIENT;
         int protocolVersion = this.protocolVersion;
         DefinedPacket packet = prot.createPacket(packetId, protocolVersion);
         if (packet != null) {
             packet.read(in, prot.getDirection(), protocolVersion);
             if (in.isReadable()) {
-                in.skipBytes(in.readableBytes()); // ZCord
+                in.skipBytes(in.readableBytes()); //ZCord
                 throw new FastBadPacketException("Packet " + protocol + ":" + prot.getDirection() + "/" + packetId + " (" + packet.getClass().getSimpleName() + ") larger than expected, extra bytes: " + in.readableBytes());
             }
         } else {
             in.skipBytes(in.readableBytes());
         }
         //System.out.println( "ID: " + packetId + ( packet == null ? " (null)" : " ("+packet+")" ) );
-        ByteBuf copy = in.copy(originalReaderIndex, originalReadableBytes); // ZCord
+        ByteBuf copy = in.copy(originalReaderIndex, originalReadableBytes); //ZCord
         out.add(new PacketWrapper(packet, copy));
     }
 }

@@ -14,7 +14,7 @@ import me.hungaz.ZCord.utils.FastBadPacketException;
 
 public class PacketDecompressor extends MessageToMessageDecoder<ByteBuf>
 {
-    // ZCord start - limit compressed data to 2 MiB
+    //ZCord start - limit compressed data to 2 MiB
     private static final int MAXIMUM_UNCOMPRESSED_SIZE = Integer.getInteger( "maximumPacketSize", 2 ) * 1024 * 1024; // 2MiB default vanilla maximum
     private static final int MAXIMUM_UNCOMPRESSED_SIZE_WHILE_CHECKING = ( ( 100 * 4 ) + Short.MAX_VALUE ) + 5 + 5; //((100 chars channel tag) + max data size) + string varint + packet id varint
 
@@ -30,7 +30,7 @@ public class PacketDecompressor extends MessageToMessageDecoder<ByteBuf>
     {
         this.threshold = threshold;
     }
-    // ZCord end
+    //ZCord end
 
     private BungeeZlib zlib;
 
@@ -64,7 +64,7 @@ public class PacketDecompressor extends MessageToMessageDecoder<ByteBuf>
             out.add( in.retain() );
         } else
         {
-            // ZCord start
+            //ZCord start
             if ( threshold != -1 && size < threshold )
             {
                 throw new FastException( "Uncompressed size " + size + " is less than threshold " + threshold );
@@ -87,11 +87,11 @@ public class PacketDecompressor extends MessageToMessageDecoder<ByteBuf>
             {
                 decompressed = ctx.alloc().directBuffer();
             }
-            // ZCord end
+            //ZCord end
 
             try
             {
-                zlib.process( in, decompressed, checking ); // ZCord
+                zlib.process( in, decompressed, checking ); //ZCord
                 Preconditions.checkArgument( decompressed.readableBytes() == size, "Decompressed size %s is not equal to actual decompressed bytes", size, decompressed.readableBytes());
 
                 out.add( decompressed );

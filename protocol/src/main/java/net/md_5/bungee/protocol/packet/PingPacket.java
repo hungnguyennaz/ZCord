@@ -21,7 +21,7 @@ public class PingPacket extends DefinedPacket
     @Override
     public void read(ByteBuf buf, Direction direction, int protocolVersion)
     {
-        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 8, 8 ); // ZCord
+        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 8, 8 ); //ZCord
         time = buf.readLong();
     }
 

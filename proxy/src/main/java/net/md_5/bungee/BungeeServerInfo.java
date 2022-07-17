@@ -111,21 +111,20 @@ public class BungeeServerInfo implements ServerInfo
         Preconditions.checkNotNull( channel, "channel" );
         Preconditions.checkNotNull( data, "data" );
 
-        Server server;
-
-        synchronized (players) {
-            server = players.isEmpty() ? null : players.iterator().next().getServer();
-        }
-
-        if (server != null) {
-            server.sendData(channel, data);
-            return true;
-        } else if (queue) {
-            synchronized (packetQueue) {
-                packetQueue.add(new PluginMessage(channel, data, false));
+        synchronized ( packetQueue )
+        {
+            Server server = ( players.isEmpty() ) ? null : players.iterator().next().getServer();
+            if ( server != null )
+            {
+                server.sendData( channel, data );
+                return true;
+            } else if ( queue )
+            {
+                packetQueue.add( new PluginMessage( channel, data, false ) );
             }
+            return false;
         }
-        return false;
+        
     }
 
     private long lastPing;

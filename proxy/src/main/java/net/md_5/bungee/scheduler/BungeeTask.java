@@ -3,9 +3,6 @@ package net.md_5.bungee.scheduler;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
-
-import io.github.waterfallmc.waterfall.event.ProxyExceptionEvent;
-import io.github.waterfallmc.waterfall.exception.ProxySchedulerException;
 import lombok.Data;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -66,11 +63,7 @@ public class BungeeTask implements Runnable, ScheduledTask
                 task.run();
             } catch ( Throwable t )
             {
-                //Waterfall start - throw exception event
-                String msg = String.format( "Task %s encountered an exception", this );
-                ProxyServer.getInstance().getLogger().log( Level.SEVERE, msg, t );
-                ProxyServer.getInstance().getPluginManager().callEvent( new ProxyExceptionEvent( new ProxySchedulerException( msg, t, this ) ) );
-                //Waterfall end
+                ProxyServer.getInstance().getLogger().log( Level.SEVERE, "Task " + this + " encountered an exception", t );
             }
 
             // If we have a period of 0 or less, only run once

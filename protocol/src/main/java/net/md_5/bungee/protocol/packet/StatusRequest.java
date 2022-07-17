@@ -15,9 +15,9 @@ public class StatusRequest extends DefinedPacket
 {
 
     @Override
-    public void read(ByteBuf buf, Direction direction, int protocolVersion) // ZCord
+    public void read(ByteBuf buf, Direction direction, int protocolVersion) //ZCord
     {
-        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 0, 0 ); // ZCord
+        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 0, 0 ); //ZCord
     }
 
     @Override

@@ -311,8 +311,8 @@ public abstract class ProxyServer
      */
     public abstract Title createTitle();
 
-    public abstract String getCustomBungeeName(); // ZCord
+    public abstract String getCustomBungeeName(); //ZCord
 
-    public abstract int getOnlineCountBF(boolean fake); // ZCord
+    public abstract int getOnlineCountBF(boolean fake); //ZCord
 
 }

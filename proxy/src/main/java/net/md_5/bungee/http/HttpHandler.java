@@ -16,7 +16,7 @@ public class HttpHandler extends SimpleChannelInboundHandler<HttpObject>
 {
 
     private final Callback<String> callback;
-    private final StringBuilder buffer = new StringBuilder(640);
+    private final StringBuilder buffer = new StringBuilder();
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception

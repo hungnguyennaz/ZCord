@@ -375,10 +375,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 break;
             case 2:
                 // Login
-                if (BungeeCord.getInstance().getConfig().isLogInitialHandlerConnections() )
-                {
                 bungee.getLogger().log( Level.INFO, "{0} has connected", this.toString() ); // ZCord, use toString()
-                }
                 thisState = State.USERNAME;
                 ch.setProtocol( Protocol.LOGIN );
 
@@ -665,7 +662,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             }
         };
         // fire login event
-        bungee.getPluginManager().callEvent( new LoginEvent( InitialHandler.this, complete, this.getLoginProfile() ) ); // Waterfall: Parse LoginResult object to new constructor of LoginEvent
+        bungee.getPluginManager().callEvent( new LoginEvent( InitialHandler.this, complete ) );
     }
 
     private void finnalyFinishLogin(UserConnection userCon, boolean ignoreLoginSuccess)
@@ -794,7 +791,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     @Override
     public String getUUID()
     {
-        return io.github.waterfallmc.waterfall.utils.UUIDUtils.undash( uniqueId.toString() ); // Waterfall
+        return uniqueId.toString().replace( "-", "" );
     }
 
     @Override
@@ -831,10 +828,9 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
             for ( String id : content.split( "\0" ) )
             {
-                // Waterfall start: Add configurable limits for plugin messaging
-                Preconditions.checkState( !(registeredChannels.size() > bungee.getConfig().getPluginChannelLimit()), "Too many registered channels. This limit can be configured in the waterfall.yml" );
-                Preconditions.checkArgument( !(id.length() > bungee.getConfig().getPluginChannelNameLimit()), "Channel name too long. This limit can be configured in the waterfall.yml" );
-                // Waterfall end
+                Preconditions.checkState( registeredChannels.size() < 128, "Too many registered channels" );
+                Preconditions.checkArgument( id.length() < 128, "Channel name too long" );
+
                 registeredChannels.add( id );
             }
             return true;
