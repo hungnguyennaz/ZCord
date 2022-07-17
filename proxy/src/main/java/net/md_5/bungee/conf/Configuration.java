@@ -72,7 +72,7 @@ public abstract class Configuration implements ProxyConfig
     private Favicon favicon;
     private int compressionThreshold = 256;
     private boolean preventProxyConnections;
-    private boolean forgeSupport = true; // Waterfall: default to enabled
+    private boolean forgeSupport;
 
     public void load()
     {

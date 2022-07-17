@@ -148,8 +148,7 @@ enum ForgeClientHandshakeState implements IForgeClientPacketHandler<ForgeClientH
         public ForgeClientHandshakeState handle(PluginMessage message, UserConnection con)
         {
             // Ack.
-            if (( message.getTag().equals( ForgeConstants.FML_HANDSHAKE_TAG ) && message.getData()[0] == -1 )
-                    || message.getTag().equals( ForgeConstants.FORGE_REGISTER ))
+            if ( message.getData()[0] == -1 )
             {
                 ForgeLogger.logClient( ForgeLogger.LogDirection.RECEIVED, this.name(), message );
                 con.unsafe().sendPacket( message );
@@ -188,7 +187,7 @@ enum ForgeClientHandshakeState implements IForgeClientPacketHandler<ForgeClientH
         }
     },
     /**
-     * Handshake has been completed. Ignores any future handshake packets, but not any FORGE packets.
+     * Handshake has been completed. Ignores any future handshake packets.
      */
     DONE
     {
@@ -197,11 +196,6 @@ enum ForgeClientHandshakeState implements IForgeClientPacketHandler<ForgeClientH
         public ForgeClientHandshakeState handle(PluginMessage message, UserConnection con)
         {
             ForgeLogger.logClient( ForgeLogger.LogDirection.RECEIVED, this.name(), message );
-            if ( message.getTag().equals( ForgeConstants.FORGE_REGISTER ))
-            {
-                con.unsafe().sendPacket( message );
-            }
-
             return this;
         }
 

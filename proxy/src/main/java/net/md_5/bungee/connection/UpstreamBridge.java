@@ -41,7 +41,6 @@ public class UpstreamBridge extends PacketHandler
 
     private final ProxyServer bungee;
     private final UserConnection con;
-    
 
     private long lastTabCompletion = -1; //ZCord
 
@@ -217,12 +216,8 @@ public class UpstreamBridge extends PacketHandler
             {
                 con.disconnect( bungee.getTranslation( "illegal_chat_characters", Util.unicode( c ) ) );
                 throw CancelSendSignal.INSTANCE;
-            } else if (empty && !Character.isWhitespace(c)) {
-                empty = false;
             }
         }
-        Preconditions.checkArgument(!empty, "Chat message is empty");
-        
         ChatEvent chatEvent = new ChatEvent( con, con.getServer(), message );
         if ( !bungee.getPluginManager().callEvent( chatEvent ).isCancelled() )
         {
@@ -333,8 +328,11 @@ public class UpstreamBridge extends PacketHandler
                 // Drop the packet if the server is not a Forge server and the message was > 32kiB (as suggested by @jk-5)
                 // Do this AFTER the mod list, so we get that even if the intial server isn't modded.
                 throw CancelSendSignal.INSTANCE;
+            } else if (empty && !Character.isWhitespace(c)) {
+                empty = false;
             }
         }
+        Preconditions.checkArgument(!empty, "Chat message is empty");
 
         PluginMessageEvent event = new PluginMessageEvent( con, con.getServer(), pluginMessage.getTag(), pluginMessage.getData().clone() );
         if ( bungee.getPluginManager().callEvent( event ).isCancelled() )

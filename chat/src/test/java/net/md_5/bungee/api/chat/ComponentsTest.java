@@ -450,7 +450,6 @@ public class ComponentsTest
         Assert.assertEquals( eventRetention[1].getClickEvent(), testClickEvent );
     }
 
-
     @Test
     public void testBuilderSpecialFormatting()
     {

@@ -39,7 +39,7 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter {
 
     public void setHandler(PacketHandler handler) {
         Preconditions.checkArgument(handler != null, "handler");
-        if (this.handler != null) { // ZCord start
+        if (this.handler != null) { //ZCord start
             this.handler.handlerChanged();
         } // END
         this.handler = handler;
@@ -109,7 +109,7 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter {
             PacketWrapper packet = (PacketWrapper) msg;
             boolean sendPacket = handler.shouldHandle(packet);
             try {
-                if (!channel.isClosed()) // ZCord Do not handle packets if closed
+                if (!channel.isClosed()) //ZCord Do not handle packets if closed
                 {
                     if (sendPacket && packet.packet != null) {
                         try {

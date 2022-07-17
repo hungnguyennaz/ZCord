@@ -126,44 +126,8 @@ public interface ProxyConfig
      */
     Favicon getFaviconObject();
 
-    /**
-     * Whether we log InitialHandler connections
-     *
-     * @return whether we log InitialHandler connections
-     */
-    boolean isLogInitialHandlerConnections();
+    //
+    // Waterfall Options
+    //
 
-    /**
-     * The supported versions
-     *
-     * @return the supported versions
-     */
-    String getGameVersion();
-
-    /**
-     * Whether Netty's async DNS resolver is used for account authentication.
-     *
-     * @return whether Netty's async DNS resolver is used for account authentication.
-     */
-    boolean isUseNettyDnsResolver();
-
-    /**
-     * Whether tablist rewriting should be disabled or not
-     * @return {@code true} if tablist rewriting is disabled, {@code false} otherwise
-     */
-    boolean isDisableTabListRewrite();
-
-    /**
-     * Gets the maximum number of registered plugin channels for any connection.
-     *
-     * @return the configured limit
-     */
-    int getPluginChannelLimit();
-
-    /**
-     * Gets the maximum length for any plugin message channel identifier.
-     *
-     * @return the configured limit
-     */
-    int getPluginChannelNameLimit();
 }

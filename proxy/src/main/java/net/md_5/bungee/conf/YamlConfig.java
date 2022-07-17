@@ -53,11 +53,12 @@ public class YamlConfig implements ConfigurationAdapter
     private Map<String, Object> config;
     private final File file;
 
-    private static Pattern RANGE_MATCH = Pattern.compile( "(.+)\\[(\\d+)-(\\d+)\\]" ); // ZCord
+    private static Pattern RANGE_MATCH = Pattern.compile( "(.+)\\[(\\d+)-(\\d+)\\]" ); //ZCord
 
     public YamlConfig() {
         this(new File("config.yml"));
     }
+
     public YamlConfig(File file)
     {
         this.file = file;

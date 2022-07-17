@@ -22,7 +22,7 @@ public class BungeeCordLauncher
         {
             System.setProperty( "jdk.util.jar.enableMultiRelease", "force" );
         }
-        System.setProperty( "java.awt.headless", "true" ); // ZCord
+        System.setProperty( "java.awt.headless", "true" ); //ZCord
 
         OptionParser parser = new OptionParser();
         parser.allowsUnrecognizedOptions();
@@ -45,7 +45,7 @@ public class BungeeCordLauncher
 
         BungeeCord bungee = new BungeeCord();
         ProxyServer.setInstance( bungee );
-        bungee.getLogger().log( Level.INFO, "Enabled ZCord ", bungee.getVersion() ); // ZCord
+        bungee.getLogger().log( Level.INFO, "Enabled ZCord ", bungee.getVersion() ); //ZCord
         bungee.start();
 
         if ( !options.has( "noconsole" ) )
@@ -58,7 +58,7 @@ public class BungeeCordLauncher
             {
                 if ( !bungee.getPluginManager().dispatchCommand( ConsoleCommandSender.getInstance(), line ) )
                 {
-                    bungee.getConsole().sendMessage( new ComponentBuilder( "Unknow command :(" ).color( ChatColor.RED ).create() ); // ZCord
+                    bungee.getConsole().sendMessage( new ComponentBuilder( "Unknow command :(" ).color( ChatColor.RED ).create() ); //ZCord
                 }
             }
             */

@@ -26,11 +26,6 @@ import java.util.Stack;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
-import io.github.waterfallmc.waterfall.event.ProxyExceptionEvent; // Waterfall
-import io.github.waterfallmc.waterfall.exception.ProxyCommandException; // Waterfall
-import io.github.waterfallmc.waterfall.exception.ProxyEventException; // Waterfall
-import io.github.waterfallmc.waterfall.exception.ProxyPluginEnableDisableException; // Waterfall
-import io.github.waterfallmc.waterfall.exception.ProxyTabCompleteException; // Waterfall
 import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
@@ -38,7 +33,6 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.event.EventBus;
 import net.md_5.bungee.event.EventHandler;
-import net.md_5.bungee.event.EventHandlerMethod; //Waterfall - Exception event
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
@@ -199,9 +193,10 @@ public final class PluginManager
         }
 
         String[] args = Arrays.copyOfRange( split, 1, split.length );
+        try
+        {
             if ( tabResults == null )
             {
-        try { // Waterfall - split command & tab complete exception handlers for exception event
                 if ( proxy.getConfig().isLogCommands() )
                 {
                     proxy.getLogger().log( Level.INFO, "{0} executed command: /{1}", new Object[]
@@ -210,28 +205,18 @@ public final class PluginManager
                     } );
                 }
                 command.execute( sender, args );
-        // Waterfall start - split command & tab complete exception handlers for exception event
-        } catch ( Exception ex ) {
-            sender.sendMessage( ChatColor.RED + "An internal error occurred whilst executing this command, please check the console log for details." );
-            ProxyServer.getInstance().getLogger().log( Level.WARNING, "Error in dispatching command", ex );
-            this.callEvent( new ProxyExceptionEvent( new ProxyCommandException( ex, command, sender, args ) ) ); //Waterfall - throw error event
-        }
-        // Waterfall end
             } else if ( commandLine.contains( " " ) && command instanceof TabExecutor )
             {
-        try { // Waterfall - split command & tab complete exception handlers for exception event
                 for ( String s : ( (TabExecutor) command ).onTabComplete( sender, args ) )
                 {
                     tabResults.add( s );
                 }
-        // Waterfall start - split command & tab complete exception handlers for exception event
-        } catch ( Exception ex ) {
+            }
+        } catch ( Exception ex )
+        {
             sender.sendMessage( ChatColor.RED + "An internal error occurred whilst executing this command, please check the console log for details." );
             ProxyServer.getInstance().getLogger().log( Level.WARNING, "Error in dispatching command", ex );
-            this.callEvent( new ProxyExceptionEvent( new ProxyTabCompleteException( ex, command, sender, args ) ) ); //Waterfall - throw error event
         }
-        // Waterfall end
-             }
         return true;
     }
 
@@ -319,11 +304,7 @@ public final class PluginManager
                 } );
             } catch ( Throwable t )
             {
-                // Waterfall start - throw exception event
-                String msg = "Exception encountered when loading plugin: " + plugin.getDescription().getName();
-                ProxyServer.getInstance().getLogger().log( Level.WARNING, msg, t );
-                this.callEvent( new ProxyExceptionEvent( new ProxyPluginEnableDisableException( msg, t, plugin) ) );
-                // Waterfall end
+                ProxyServer.getInstance().getLogger().log( Level.WARNING, "Exception encountered when loading plugin: " + plugin.getDescription().getName(), t );
             }
         }
     }
@@ -463,7 +444,7 @@ public final class PluginManager
         Preconditions.checkNotNull( event, "event" );
 
         long start = System.nanoTime();
-        eventBus.post( event, this::handleEventException ); //Waterfall - pass exception handler below
+        eventBus.post( event );
         event.postCall();
 
         long elapsed = System.nanoTime() - start;
@@ -476,14 +457,6 @@ public final class PluginManager
         }
         return event;
     }
-
-    //Waterfall start - Exception handler passed to event bus to fire the exception event
-    private <T extends Event> void handleEventException(String msg, T event, EventHandlerMethod method, Throwable ex) {
-        if( !(event instanceof ProxyExceptionEvent) ) {
-            this.callEvent( new ProxyExceptionEvent( new ProxyEventException( msg, ex, (Listener) method.getListener(), event) ) );
-        }
-    }
-    //Waterfall end
 
     /**
      * Register a {@link Listener} for receiving called events. Methods in this

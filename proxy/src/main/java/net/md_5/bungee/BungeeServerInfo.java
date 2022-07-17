@@ -125,6 +125,7 @@ public class BungeeServerInfo implements ServerInfo
                 packetQueue.add(new PluginMessage(channel, data, false));
             }
         }
+
         return false;
     }
 

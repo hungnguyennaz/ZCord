@@ -112,9 +112,19 @@ public class ProtocolConstants
     {
             return after >= other;
     }
-    public static int getLastSupportedProtocol() // ZCord
+    public static int getLastSupportedProtocol() //ZCord
     {
         return SUPPORTED_VERSION_IDS.get( SUPPORTED_VERSION_IDS.size() - 1 );
+    }
+
+    public static final boolean isBeforeOrEq(int before, int other)
+    {
+            return before <= other;
+    }
+
+    public static final boolean isAfterOrEq(int after, int other)
+    {
+            return after >= other;
     }
 
     public enum Direction

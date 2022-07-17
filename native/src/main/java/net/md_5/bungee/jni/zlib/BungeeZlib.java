@@ -12,5 +12,5 @@ public interface BungeeZlib
 
     void process(ByteBuf in, ByteBuf out) throws DataFormatException;
 
-    void process(ByteBuf in, ByteBuf out, boolean preallocatedBuffer) throws DataFormatException; // ZCord
+    void process(ByteBuf in, ByteBuf out, boolean preallocatedBuffer) throws DataFormatException; //ZCord
 }

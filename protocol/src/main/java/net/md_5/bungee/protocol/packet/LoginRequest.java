@@ -18,7 +18,7 @@ import net.md_5.bungee.protocol.ProtocolConstants.Direction;
 public class LoginRequest extends DefinedPacket
 {
 
-    public static final int EXPECTED_MAX_LENGTH = 1 + ( 32 * 4 ); // ZCord
+    public static final int EXPECTED_MAX_LENGTH = 1 + ( 32 * 4 ); //ZCord
 
     private String data;
     private PlayerPublicKey publicKey;
@@ -26,8 +26,8 @@ public class LoginRequest extends DefinedPacket
     @Override
     public void read(ByteBuf buf, Direction direction, int protocolVersion)
     {
-        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 0, EXPECTED_MAX_LENGTH ); // ZCord
-        data = readString( buf, 32 ); // ZCord read 32 characters instead of 15
+        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 0, EXPECTED_MAX_LENGTH ); //ZCord
+        data = readString( buf, 32 ); //ZCord read 32 characters instead of 15
 
         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
         {
