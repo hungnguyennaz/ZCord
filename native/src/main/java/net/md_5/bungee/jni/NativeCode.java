@@ -20,6 +20,7 @@ public final class NativeCode<T>
 
     public NativeCode(String name, Supplier<? extends T> javaImpl, Supplier<? extends T> nativeImpl)
     {
+        if ("Mac OS X".equals( System.getProperty( "os.name" ))) name = "osx-" + name; // Waterfall
         this.name = name;
         this.javaImpl = javaImpl;
         this.nativeImpl = nativeImpl;
@@ -75,6 +76,6 @@ public final class NativeCode<T>
 
     public static boolean isSupported()
     {
-        return "Linux".equals( System.getProperty( "os.name" ) ) && "amd64".equals( System.getProperty( "os.arch" ) );
+        return ("Linux".equals( System.getProperty( "os.name" ) ) || "Mac OS X".equals( System.getProperty( "os.name" ) )) && ("amd64".equals( System.getProperty( "os.arch" ) ) || "x86_64".equals( System.getProperty( "os.arch" )) ); // Waterfall
     }
 }

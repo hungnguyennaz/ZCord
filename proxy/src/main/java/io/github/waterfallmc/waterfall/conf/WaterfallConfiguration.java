@@ -56,6 +56,7 @@ public class WaterfallConfiguration extends Configuration {
         logInitialHandlerConnections = config.getBoolean( "log_initial_handler_connections", logInitialHandlerConnections );
         gameVersion = config.getString("game_version", "").isEmpty() ? Joiner.on(", ").join(ProtocolConstants.SUPPORTED_VERSIONS) : config.getString("game_version", "");
         useNettyDnsResolver = config.getBoolean("use_netty_dns_resolver", useNettyDnsResolver);
+        disableEntityMetadataRewrite = config.getBoolean("disable_entity_metadata_rewrite", disableEntityMetadataRewrite);
         disableTabListRewrite = config.getBoolean("disable_tab_list_rewrite", disableTabListRewrite);
         pluginChannelLimit = config.getInt("registered_plugin_channels_limit", pluginChannelLimit);
         pluginChannelNameLimit = config.getInt("plugin_channel_name_limit", pluginChannelNameLimit);
