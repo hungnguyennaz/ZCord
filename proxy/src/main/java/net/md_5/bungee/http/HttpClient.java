@@ -57,7 +57,7 @@ public class HttpClient
                     port = 443;
                     break;
                 default:
-                    throw new IllegalArgumentException( "Unknown scheme " + uri.getScheme() );
+                    throw new IllegalArgumentException( "Unknown scheme "  uri.getScheme() );
             }
         }
 
@@ -84,7 +84,7 @@ public class HttpClient
             {
                 if ( future.isSuccess() )
                 {
-                    String path = uri.getRawPath() + ( ( uri.getRawQuery() == null ) ? "" : "?" + uri.getRawQuery() );
+                    String path = uri.getRawPath()  ( ( uri.getRawQuery() == null ) ? "" : "?"  uri.getRawQuery() );
 
                     HttpRequest request = new DefaultHttpRequest( HttpVersion.HTTP_1_1, HttpMethod.GET, path );
                     request.headers().set( HttpHeaderNames.HOST, uri.getHost() );
@@ -130,6 +130,7 @@ public class HttpClient
             }
             addressCache.put( uri.getHost(), inetHost );
         }
+
         new Bootstrap().channel( PipelineUtils.getChannel( null ) ).group( eventLoop ).handler( new HttpInitializer( callback, ssl, uri.getHost(), port ) ).
                 option( ChannelOption.CONNECT_TIMEOUT_MILLIS, TIMEOUT ).remoteAddress( inetHost, port ).connect().addListener( future );
     }
