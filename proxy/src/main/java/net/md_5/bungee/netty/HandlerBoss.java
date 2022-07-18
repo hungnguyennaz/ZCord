@@ -146,14 +146,6 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter {
                 if (cause instanceof ReadTimeoutException) {
                     ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - read timed out", handler.toString()); // ZCord, use toString() instead of object
                 } else if (cause instanceof DecoderException) {
-                    // Waterfall start
-                    if (net.md_5.bungee.protocol.MinecraftDecoder.DEBUG) {
-                        java.util.logging.LogRecord logRecord = new java.util.logging.LogRecord(Level.WARNING, "{0} - A decoder exception has been thrown:");
-                        logRecord.setParameters(new Object[]{handler.toString()}); // ZCord, use toString() instead of object
-                        logRecord.setThrown(cause);
-                        ProxyServer.getInstance().getLogger().log(logRecord);
-                    } else
-                    // Waterfall end
                     if (cause instanceof CorruptedFrameException) {
                         ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - corrupted frame: {1}", new Object[]
                                 {
