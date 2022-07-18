@@ -56,7 +56,6 @@ import me.hungaz.ZCord.packets.Player;
 import me.hungaz.ZCord.packets.PlayerAbilities;
 import me.hungaz.ZCord.packets.PlayerPosition;
 import me.hungaz.ZCord.packets.PlayerPositionAndLook;
-import me.hungaz.ZCord.packets.SetExp;
 import me.hungaz.ZCord.packets.SetSlot;
 import me.hungaz.ZCord.packets.TeleportConfirm;
 import me.hungaz.ZCord.packets.TimeUpdate;
@@ -574,17 +573,6 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_16_2, 0x30 ),
                     map( ProtocolConstants.MINECRAFT_1_17, 0x32 ),
                     map( ProtocolConstants.MINECRAFT_1_19, 0x2f )
-            );
-            TO_CLIENT.registerPacket(
-                    SetExp.class, SetExp::new,
-                    map( ProtocolConstants.MINECRAFT_1_8, 0x1F ),
-                    map( ProtocolConstants.MINECRAFT_1_9, 0x3D ),
-                    map( ProtocolConstants.MINECRAFT_1_12, 0x3F ),
-                    map( ProtocolConstants.MINECRAFT_1_12_1, 0x40 ),
-                    map( ProtocolConstants.MINECRAFT_1_13, 0x43 ),
-                    map( ProtocolConstants.MINECRAFT_1_14, 0x47 ),
-                    map( ProtocolConstants.MINECRAFT_1_15, 0x48 ),
-                    map( ProtocolConstants.MINECRAFT_1_17, 0x51 )
             );
             TO_SERVER.registerPacket(
                     ClientSettings.class, ClientSettings::new,
