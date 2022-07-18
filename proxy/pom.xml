@@ -158,7 +158,7 @@
         <dependency>
             <groupId>org.apache.maven.resolver</groupId>
             <artifactId>maven-resolver-transport-http</artifactId>
-            <version>1.7.3</version>
+            <version>1.8.1</version>
             <scope>runtime</scope>
         </dependency>
         <!-- Waterfall start - Console improvements - bring back slf4j-->
