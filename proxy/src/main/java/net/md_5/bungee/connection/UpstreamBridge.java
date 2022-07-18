@@ -208,7 +208,6 @@ public class UpstreamBridge extends PacketHandler
 
     private String handleChat(String message)
     {
-        boolean empty = true;
         for ( int index = 0, length = message.length(); index < length; index++ )
         {
             char c = message.charAt( index );
@@ -328,11 +327,8 @@ public class UpstreamBridge extends PacketHandler
                 // Drop the packet if the server is not a Forge server and the message was > 32kiB (as suggested by @jk-5)
                 // Do this AFTER the mod list, so we get that even if the intial server isn't modded.
                 throw CancelSendSignal.INSTANCE;
-            } else if (empty && !Character.isWhitespace(c)) {
-                empty = false;
             }
         }
-        Preconditions.checkArgument(!empty, "Chat message is empty");
 
         PluginMessageEvent event = new PluginMessageEvent( con, con.getServer(), pluginMessage.getTag(), pluginMessage.getData().clone() );
         if ( bungee.getPluginManager().callEvent( event ).isCancelled() )
