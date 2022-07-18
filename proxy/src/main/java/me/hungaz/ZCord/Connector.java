@@ -238,6 +238,12 @@ public class Connector extends MoveHandler
             completeCheck();
             return;
         }
+        if ( state == CheckState.CAPTCHA_ON_POSITION_FAILED || state == CheckState.ONLY_POSITION )
+        {
+            {
+                channel.writeAndFlush( channel.voidPromise() );
+            }
+        }
         ticks++;
         aticks++;
     }
@@ -362,6 +368,7 @@ public class Connector extends MoveHandler
     {
         state = CheckState.ONLY_CAPTCHA;
         joinTime = System.currentTimeMillis() + 3500;
+        channel.write( PacketUtils.getCachedPacket( PacketsPosition.SETSLOT_MAP ).get( version ), channel.voidPromise() );
         resetPosition( true );
         sendCaptcha();
     }

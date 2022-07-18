@@ -81,6 +81,7 @@ import net.md_5.bungee.command.CommandBungee;
 import net.md_5.bungee.command.CommandEnd;
 import net.md_5.bungee.command.CommandIP;
 import net.md_5.bungee.command.CommandPerms;
+import net.md_5.bungee.command.CommandPlugins;
 import net.md_5.bungee.command.CommandReload;
 import net.md_5.bungee.command.CommandReloadServers;
 import net.md_5.bungee.command.ConsoleCommandSender;
@@ -247,6 +248,7 @@ public class BungeeCord extends ProxyServer
         getPluginManager().registerCommand( null, new CommandIP() );
         getPluginManager().registerCommand( null, new CommandBungee() );
         getPluginManager().registerCommand( null, new CommandPerms() );
+        getPluginManager().registerCommand( null, new CommandPlugins() );
         getPluginManager().registerCommand( null, new ZCordCommand() ); //ZCord
         getPluginManager().registerCommand( null, new CommandReloadServers() ); //ZCord
 

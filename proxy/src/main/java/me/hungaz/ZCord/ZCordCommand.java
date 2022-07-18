@@ -17,7 +17,6 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 import me.hungaz.ZCord.captcha.CaptchaGeneration;
 import me.hungaz.ZCord.captcha.CaptchaGenerationException;
-import me.hungaz.ZCord.config.Settings;
 
 public class ZCordCommand extends Command
 {
