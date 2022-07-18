@@ -23,7 +23,7 @@ extends Command {
     private BaseComponent[] getPluginList() {
         Collection<Plugin> plugins = BungeeCord.getInstance().getPluginManager().getPlugins();
         ComponentBuilder builder = new ComponentBuilder();
-        builder.append("Plugins (" + plugins.size() + "): ");
+        builder.append("Plugins (" + plugins.size() + "):§a ");
         boolean firstIteration = true;
         for (Plugin plugin : plugins) {
             if (firstIteration) {
