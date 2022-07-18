@@ -42,8 +42,6 @@ public class UpstreamBridge extends PacketHandler
     private final ProxyServer bungee;
     private final UserConnection con;
 
-    private long lastTabCompletion = -1; //ZCord
-
     public UpstreamBridge(ProxyServer bungee, UserConnection con)
     {
         this.bungee = bungee;
@@ -237,15 +235,6 @@ public class UpstreamBridge extends PacketHandler
     @Override
     public void handle(TabCompleteRequest tabComplete) throws Exception
     {
-        //ZCord start
-        long now = System.currentTimeMillis();
-        if ( con.getPendingConnection().getVersion() <= ProtocolConstants.MINECRAFT_1_12_2 && lastTabCompletion > 0 && ( now - lastTabCompletion ) <= 500 )
-        {
-            throw CancelSendSignal.INSTANCE;
-        }
-        lastTabCompletion = now;
-        //ZCord end
-
         List<String> suggestions = new ArrayList<>();
         boolean isRegisteredCommand = false;
 
