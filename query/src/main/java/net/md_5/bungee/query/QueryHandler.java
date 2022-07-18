@@ -109,7 +109,7 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
                     writeString( out, result.getMotd() ); // MOTD
                     writeString( out, result.getGameType() ); // Game Type
                     writeString( out, result.getWorldName() ); // World Name
-                    writeNumber( out, result.getOnlineCountBF() ); // Online Count // ZCord
+                    writeNumber( out, result.getOnlinePlayers() ); // Online Count
                     writeNumber( out, result.getMaxPlayers() ); // Max Players
                     writeShort( out, result.getPort() ); // Port
                     writeString( out, result.getAddress() ); // IP
@@ -131,7 +131,7 @@ public class QueryHandler extends SimpleChannelInboundHandler<DatagramPacket> {
                     data.put( "plugins", "" ); // TODO: Allow population?
                     // End Extra Info
                     data.put( "map", result.getWorldName() );
-                    data.put( "numplayers", Integer.toString( result.getOnlineCountBF() ) ); // ZCord
+                    data.put( "numplayers", Integer.toString( result.getOnlinePlayers() ) );
                     data.put( "maxplayers", Integer.toString( result.getMaxPlayers() ) );
                     data.put( "hostport", Integer.toString( result.getPort() ) );
                     data.put( "hostip", result.getAddress() );
