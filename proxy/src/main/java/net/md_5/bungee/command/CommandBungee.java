@@ -12,7 +12,7 @@ extends Command {
 
     public CommandBungee() {
         super("bungee");
-        this.message = ChatColor.translateAlternateColorCodes('&', "&8> &7This server is running &cZCord &7" + "1.6" + " (1.8.x - 1.19.x)\n&8> &7A free &cBungeeCord fork&7 made by HungNguyenAZ\n&8> &7Resource: https://zcord.2hg.pw");
+        this.message = ChatColor.translateAlternateColorCodes('&', "&8> &7This server is running &6ZCord &7" + "1.6" + " (1.8.x - 1.19.x)\n&8> &7A free &6BungeeCord fork&7 made by HungNguyenAZ\n&8> &7Resource: https://zcord.2hg.pw");
     }
 
     @Override

@@ -17,6 +17,7 @@ public final class PacketsPosition
     public static int SETSLOT_RESET = 6;
     public static int KEEPALIVE = 7;
     public static int PLAYERPOSANDLOOK = 8;
+    public static int SETEXP_RESET = 9;
     public static int PLUGIN_MESSAGE = 10;
 
 

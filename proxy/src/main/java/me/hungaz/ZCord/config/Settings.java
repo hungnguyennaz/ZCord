@@ -236,5 +236,7 @@ public class Settings extends Config
         public int COUNT = 1200;
         @Comment("How often the captcha should regenerate itself in minutes.")
         public int CAPTCHA_REGENERATION_TIME = 360;
+        @Comment("Captcha Font size")
+        public int CAPTCHA_FONT_SIZE = 50;
     }
 }

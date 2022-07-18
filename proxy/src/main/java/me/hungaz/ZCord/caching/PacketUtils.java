@@ -17,6 +17,7 @@ import me.hungaz.ZCord.packets.EmptyChunkPacket;
 import me.hungaz.ZCord.packets.JoinGame;
 import me.hungaz.ZCord.packets.PlayerAbilities;
 import me.hungaz.ZCord.packets.PlayerPositionAndLook;
+import me.hungaz.ZCord.packets.SetExp;
 import me.hungaz.ZCord.packets.SetSlot;
 import me.hungaz.ZCord.packets.TimeUpdate;
 import me.hungaz.ZCord.utils.ColorsUtils;
@@ -33,6 +34,7 @@ public class PacketUtils
     public static int PROTOCOLS_COUNT = ProtocolConstants.SUPPORTED_VERSION_IDS.size();
     public static int CLIENTID = new Random().nextInt( Integer.MAX_VALUE - 100 ) + 50;
     public static int KEEPALIVE_ID = 9876;
+    public static CachedExpPackets expPackets;
 
     /**
      * 0 - Checking_fall, 1 - checking_captcha, 2 - sus
@@ -50,6 +52,17 @@ public class PacketUtils
 
     public static void init()
     {
+        if ( expPackets != null )
+        {
+            expPackets.release();
+        }
+        for ( CachedPacket packet : cachedPackets )
+        {
+            if ( packet != null )
+            {
+                packet.release();
+            }
+        }
         for ( CachedPacket packet : kickMessagesGame.values() )
         {
             packet.release();
@@ -63,6 +76,7 @@ public class PacketUtils
         }
         kickMessagesGame.clear();
 
+        expPackets = new CachedExpPackets();
 
 
 
@@ -86,6 +100,7 @@ public class PacketUtils
             new SetSlot( 0, 36, -1, 0, 0 ), //6 map reset
             new KeepAlive( KEEPALIVE_ID ), //7
             new PlayerPositionAndLook( 7.00, 450, 7.00, 90f, 10f, 9876, false ), //8
+            new SetExp( 0, 0, 0 ), //9
             createPluginMessage(), //10
         };
 

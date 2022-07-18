@@ -41,9 +41,9 @@ public class CaptchaGeneration
         try
         {
             List<Font> fonts = Arrays.asList(
-                    new Font( Font.SANS_SERIF, Font.PLAIN, 50 ),
-                    new Font( Font.SERIF, Font.PLAIN, 50 ),
-                    new Font( Font.MONOSPACED, Font.BOLD, 50 ) );
+                    new Font( Font.SANS_SERIF, Font.PLAIN, Settings.IMP.CAPTCHA.CAPTCHA_FONT_SIZE ),
+                    new Font( Font.SERIF, Font.PLAIN, Settings.IMP.CAPTCHA.CAPTCHA_FONT_SIZE),
+                    new Font( Font.MONOSPACED, Font.BOLD, Settings.IMP.CAPTCHA.CAPTCHA_FONT_SIZE) );
             PacketUtils.captchas.clear();
             BungeeCord.getInstance().getLogger().log( Level.INFO, "[ZCord] " + ( BungeeCord.getInstance().isEnabled() ? "Background captcha generation has been started." : "Captcha generation will continue in the instance." ) );
             ExecutorService executor = Executors.newFixedThreadPool( Runtime.getRuntime().availableProcessors(),

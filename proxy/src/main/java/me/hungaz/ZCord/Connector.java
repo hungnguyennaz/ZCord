@@ -240,8 +240,10 @@ public class Connector extends MoveHandler
         }
         if ( state == CheckState.CAPTCHA_ON_POSITION_FAILED || state == CheckState.ONLY_POSITION )
         {
+            ByteBuf expBuf = PacketUtils.expPackets.get( aticks, version );
+            if ( expBuf != null )
             {
-                channel.writeAndFlush( channel.voidPromise() );
+                channel.writeAndFlush( expBuf, channel.voidPromise() );
             }
         }
         ticks++;
@@ -368,7 +370,7 @@ public class Connector extends MoveHandler
     {
         state = CheckState.ONLY_CAPTCHA;
         joinTime = System.currentTimeMillis() + 3500;
-        channel.write( PacketUtils.getCachedPacket( PacketsPosition.SETSLOT_MAP ).get( version ), channel.voidPromise() );
+        channel.write( PacketUtils.getCachedPacket( PacketsPosition.SETEXP_RESET ).get( version ), channel.voidPromise() );
         resetPosition( true );
         sendCaptcha();
     }
