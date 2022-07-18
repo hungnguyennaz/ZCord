@@ -27,10 +27,12 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.text.Format;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Locale;
@@ -121,7 +123,7 @@ public class BungeeCord extends ProxyServer
      * Localization bundle.
      */
     private ResourceBundle baseBundle;
-    private ResourceBundle customBundle;
+    private Map<String, Format> messageFormats;
 
     public EventLoopGroup eventLoops;
     public EventLoopGroup bossEventLoopGroup, workerEventLoopGroup, queryEventLoopGroup; //ZCord
@@ -584,32 +586,36 @@ public class BungeeCord extends ProxyServer
 
     public void reloadMessages()
     {
+        Map<String, Format> cachedFormats = new HashMap<>();
         File file = new File( "messages.properties" );
         if ( file.isFile() )
         {
             try ( FileReader rd = new FileReader( file ) )
             {
-                customBundle = new PropertyResourceBundle( rd );
+                cacheResourceBundle( cachedFormats, new PropertyResourceBundle( rd ) );
             } catch ( IOException ex )
             {
                 getLogger().log( Level.SEVERE, "Could not load custom messages.properties", ex );
             }
+        }
+        cacheResourceBundle( cachedFormats, baseBundle );
+        messageFormats = cachedFormats;
+    }
+
+    private void cacheResourceBundle(Map<String, Format> map, ResourceBundle resourceBundle)
+    {
+        Enumeration<String> keys = resourceBundle.getKeys();
+        while ( keys.hasMoreElements() )
+        {
+            map.computeIfAbsent( keys.nextElement(), (key) -> new MessageFormat( resourceBundle.getString( key ) ) );
         }
     }
 
     @Override
     public String getTranslation(String name, Object... args)
     {
-        String translation = "<translation '" + name + "' missing>";
-        try
-        {
-            final String string = customBundle != null && customBundle.containsKey( name ) ? customBundle.getString( name ) : baseBundle.getString( name );
-
-            translation = ( args.length == 0 ) ? string : MessageFormat.format( string, args );
-        } catch ( MissingResourceException ex )
-        {
-        }
-        return translation;
+        Format format = messageFormats.get( name );
+        return ( format != null ) ? format.format( args ) : "<translation '" + name + "' missing>";
     }
 
     @Override
