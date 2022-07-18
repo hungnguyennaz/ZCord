@@ -125,7 +125,7 @@
         <dependency>
             <groupId>com.github.ben-manes.caffeine</groupId>
             <artifactId>caffeine</artifactId>
-            <version>2.9.2</version>
+            <version>2.9.3</version>
             <scope>compile</scope>
         </dependency>
         <!-- add these back in as they are not exposed by the API -->
