@@ -28,6 +28,10 @@ public class PluginMessage extends DefinedPacket
         {
             return "bungeecord:main";
         }
+        if ( tag.equals( "bungeecord:main" ) )
+        {
+            return "BungeeCord";
+        }
 
         if ( tag.indexOf( ':' ) != -1 )
         {
