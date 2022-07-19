@@ -404,6 +404,6 @@ public class Connector extends MoveHandler
     @Override
     public String toString()
     {
-        return "[" + name + "|" + ip + "] <-> ZCordFilter";
+        return "[" + name + "|" + ip + "] <-> Filter";
     }
 }
