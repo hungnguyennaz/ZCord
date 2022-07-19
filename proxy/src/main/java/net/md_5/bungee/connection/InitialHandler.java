@@ -407,6 +407,11 @@ public class InitialHandler extends PacketHandler implements PendingConnection
     {
         checkState( thisState == State.USERNAME, "Not expecting USERNAME" ); //ZCord
         thisState = State.PROCESSING_USERNAME;
+        if ( loginRequest.getData().isEmpty() )
+        {
+            disconnect( bungee.getTranslation( "name_empty" ) );
+            return;
+        }
         if ( loginRequest.getData().length() > 16 )
         {
             disconnect( bungee.getTranslation( "name_too_long" ) );
