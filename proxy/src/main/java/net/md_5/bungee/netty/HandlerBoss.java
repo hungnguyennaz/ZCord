@@ -144,25 +144,25 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter {
 
             if (logExceptions) {
                 if (cause instanceof ReadTimeoutException) {
-                    ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - read timed out", handler.toString()); // ZCord, use toString() instead of object
+                    ProxyServer.getInstance().getLogger().log(Level.INFO, "[!] x {0}", handler.toString()); // ZCord, use toString() instead of object
                 } else if (cause instanceof DecoderException) {
                     if (cause instanceof CorruptedFrameException) {
-                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - corrupted frame: {1}", new Object[]
+                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - Corrupted frame: {1}", new Object[]
                                 {
                                         handler.toString(), cause.getMessage() // ZCord, use toString() instead of object
                                 });
                     } else if (cause.getCause() instanceof BadPacketException) {
-                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - bad packet, are mods in use!? {1}", new Object[]
+                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - Bad packet, are mods in use!? {1}", new Object[]
                                 {
                                         handler.toString(), cause.getCause().getMessage() // ZCord, use toString() instead of object
                                 });
                     } else if (cause.getCause() instanceof OverflowPacketException) {
-                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - overflow in packet detected! {1}", new Object[]
+                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - Overflow in packet detected! {1}", new Object[]
                                 {
                                         handler.toString(), cause.getCause().getMessage() // ZCord, use toString() instead of object
                                 });
                     } else {
-                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - could not decode packet! {1}", new Object[]
+                        ProxyServer.getInstance().getLogger().log(Level.WARNING, "{0} - Could not decode packet! {1}", new Object[]
                                 {
                                         handler, cause.getCause() != null ? cause.getCause() : cause
                                 });
@@ -173,7 +173,7 @@ public class HandlerBoss extends ChannelInboundHandlerAdapter {
                                     handler.toString(), cause.getClass().getSimpleName(), cause.getMessage() // ZCord, use toString() instead of object
                             });
                 } else if (cause instanceof QuietException) {
-                    ProxyServer.getInstance().getLogger().log(Level.SEVERE, "{0} - encountered exception: {1}", new Object[]
+                    ProxyServer.getInstance().getLogger().log(Level.SEVERE, "{0} - Encountered exception: {1}", new Object[]
                             {
                                     handler.toString(), cause // ZCord, use toString() instead of object
                             });

@@ -156,11 +156,6 @@ public class ZCord
         userCache.put( ZCordUser.getName(), ZCordUser );
     }
 
-    /**
-     * Удаляет игрока из памяти
-     *
-     * @param userName Имя игрока, которого следует удалить из памяти
-     */
     public void removeUser(String userName)
     {
         userName = userName.toLowerCase();
@@ -188,24 +183,11 @@ public class ZCord
         }
     }
 
-    /**
-     * Добавляет игрока в мапу
-     *
-     * @param connector connector
-     * @return если игрок был добавлен в мапу
-     */
     public boolean addConnection(Connector connector)
     {
         return connectedUsersSet.putIfAbsent( connector.getName(), connector ) == null;
     }
 
-    /**
-     * Убирает игрока из мапы.
-     *
-     * @param name Имя игрока (lowercased)
-     * @param connector Объект коннектора
-     * @throws RuntimeException Имя игрока и коннектор null
-     */
     public void removeConnection(String name, Connector connector)
     {
         name = name == null ? connector == null ? null : connector.getName() : name;
@@ -218,41 +200,21 @@ public class ZCord
         }
     }
 
-    /**
-     * Увеличивает счетчик ботов
-     */
     public void incrementBotCounter()
     {
         botCounter++;
     }
 
-    /**
-     * Количество подключений на проверке
-     *
-     * @return количество подключений на проверке
-     */
     public int getOnlineOnFilter()
     {
         return connectedUsersSet.size();
     }
 
-    /**
-     * Количество пользователей, которые прошли проверку
-     *
-     * @return количество пользователей, которые прошли проверку
-     */
     public int getUsersCount()
     {
         return userCache.size();
     }
 
-    /**
-     * Проверяет нужно ли игроку проходить проверку
-     *
-     * @param userName Имя игрока
-     * @param address InetAddress игрока
-     * @return Нужно ли юзеру проходить проверку
-     */
     public boolean needCheck(String userName, InetAddress address)
     {
         ZCordUser ZCordUser = userCache.get( userName.toLowerCase() );
@@ -293,22 +255,11 @@ public class ZCord
         return ProxyServer.getInstance().getPluginManager().getPlugin("nAntiBot") != null;
     }
 
-    /**
-     * Проверяет, находиться ли игрок на проверке
-     *
-     * @param name Имя игрока которого нужно искать на проверке
-     * @return Находиться ли игрок на проверке
-     */
     public boolean isOnChecking(String name)
     {
         return connectedUsersSet.containsKey( name.toLowerCase() );
     }
 
-    /**
-     * Проверяет есть ли в текущий момент бот атака
-     *
-     * @return true Если в текущий момент идёт атака
-     */
     public boolean isUnderAttack()
     {
         if ( isForceProtectionEnabled() )
@@ -362,7 +313,7 @@ public class ZCord
         {
             PacketUtils.kickPlayer( KickType.MANYCHECKS, Protocol.LOGIN, ch, version );
             if(Settings.IMP.LOG_ANTIBOT_CHECKS) {
-                bungee.getLogger().log(Level.INFO, "(ZCord) [{0}] disconnected: Too many checks in 10 min", address);
+                bungee.getLogger().log(Level.INFO, "[!] x {0}", address);
             }
             return;
         }
@@ -372,7 +323,7 @@ public class ZCord
         {
             PacketUtils.kickPlayer( KickType.PING, Protocol.LOGIN, ch, version );
             if(Settings.IMP.LOG_ANTIBOT_CHECKS) {
-                bungee.getLogger().log(Level.INFO, "(ZCord) [{0}] disconnected: The player did not ping the server", address.getHostAddress());
+                bungee.getLogger().log(Level.INFO, "[!] x {0}", address.getHostAddress());
             }
             return;
         }
