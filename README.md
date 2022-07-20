@@ -1,7 +1,7 @@
 # ZCord
 ![image](https://user-images.githubusercontent.com/101444336/179353955-72eeacd2-ae8a-44ba-9d31-6b43206dc06c.png)
 
-BungeeCord fork with Dynamic DNS and BotFilter captcha.
+BungeeCord (Leymoo) fork with Dynamic DNS and BotFilter captcha.
 This is still in development and i'm learning stuffs about this so i wouldn't recommended to use on your server. 
 No update-checker yet because of ma lazinee.
 ## Please remember
