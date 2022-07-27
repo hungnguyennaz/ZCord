@@ -183,6 +183,8 @@ public class BungeeCord extends ProxyServer
     @Getter
     private ConnectionThrottle connectionThrottle;
     private final ModuleManager moduleManager = new ModuleManager();
+    @Getter
+    private final SessionCache sessionCache = new SessionCache( TimeUnit.HOURS.toMillis( 6 ) );
 
     @Getter
     private String customBungeeName; //ZCord
@@ -501,6 +503,7 @@ public class BungeeCord extends ProxyServer
             reconnectHandler.close();
         }
         saveThread.cancel();
+        sessionCache.getTimer().cancel();
 
         getLogger().info( "Disabling plugins" );
         for ( Plugin plugin : Lists.reverse( new ArrayList<>( pluginManager.getPlugins() ) ) )

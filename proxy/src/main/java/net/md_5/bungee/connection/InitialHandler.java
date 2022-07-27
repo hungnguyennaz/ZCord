@@ -305,9 +305,6 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         if ( forced != null && listener.isPingPassthrough() )
         {
             ( (BungeeServerInfo) forced ).ping( pingBack, handshake.getProtocolVersion() );
-        } else
-        {
-            pingBack.done( getPingInfo( motd, protocol ), null );
         }
 
         thisState = State.PING;
@@ -526,6 +523,19 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         BungeeCipher encrypt = EncryptionUtil.getCipher( true, sharedKey );
         ch.addBefore( PipelineUtils.FRAME_PREPENDER, PipelineUtils.ENCRYPT_HANDLER, new CipherEncoder( encrypt ) );
 
+        LoginResult cached = BungeeCord.getInstance().getSessionCache().getCachedResult( getSocketAddress() );
+
+        if ( cached != null && cached.getName().equals( getName() ) )
+        {
+            BungeeCord.getInstance().getLogger().log( Level.FINE, () -> "Logged in cached " + cached + " from " + getSocketAddress() );
+            thisState = State.FINISHING;
+            loginProfile = cached;
+            name = cached.getName();
+            uniqueId = Util.getUUID( cached.getId() );
+            finish();
+            return;
+        }
+
         String encName = URLEncoder.encode( InitialHandler.this.getName(), "UTF-8" );
 
         MessageDigest sha = MessageDigest.getInstance( "SHA-1" );
@@ -552,6 +562,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                         // FlameCord - Don't declare uuid unless it's null
                         if (uniqueId == null) {
                             uniqueId = Util.getUUID(obj.getId());
+                            BungeeCord.getInstance().getSessionCache().cacheSession( getSocketAddress(), obj );
                         }
                         finish();
                         return;

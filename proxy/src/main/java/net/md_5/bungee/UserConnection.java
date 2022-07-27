@@ -69,6 +69,7 @@ import net.md_5.bungee.tab.ServerUnique;
 import net.md_5.bungee.tab.TabList;
 import net.md_5.bungee.util.CaseInsensitiveSet;
 import net.md_5.bungee.util.ChatComponentTransformer;
+import net.md_5.bungee.util.QuietException;
 
 @RequiredArgsConstructor
 public final class UserConnection implements ProxiedPlayer
