@@ -175,7 +175,8 @@ public class Settings extends Config
         })
     public static class PROTECTION
     {
-
+        @Comment("Some times is ass for bedrock doing checks, enable to skip")
+        public boolean DETECT_GEYSER = false;
         @Comment("Drop check, if failed, then captcha")
         public int NORMAL = 1;
         @Comment("Mode of operation during an attack")
