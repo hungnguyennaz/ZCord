@@ -4,6 +4,7 @@
 BungeeCord (Leymoo) fork with Dynamic DNS and BotFilter captcha.
 This is still in development and i'm learning stuffs about this so i wouldn't recommended to use on your server. 
 No update-checker yet because of ma lazinee.
+# [Preview video](https://www.youtube.com/watch?v=wBFviHtltCI)
 ## Please remember
 ZCord needs strong hardware/machine to run as it's an "Human Verification" antibot and will use a lot of resources to deal with Captcha Generation + Loading and handling players. Found any errors, bugs or having questions? Join the [Support Server](https://discord.gg/GsSDWH34Tg) here. You can use my [Startup Flags](https://pastebin.com/AJ10YQcA) for optimization (BungeeCord haves GC and resize the memory to use by yourself).
 ## Minimum requirements:
