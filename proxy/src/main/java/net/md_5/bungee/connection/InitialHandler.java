@@ -261,7 +261,6 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         thisState = State.PROCESSING;
 
         ServerInfo forced = AbstractReconnectHandler.getForcedHost( this );
-        final String motd = ( forced != null ) ? forced.getMotd() : listener.getMotd();
         final int protocol = ( ProtocolConstants.SUPPORTED_VERSION_IDS.contains( handshake.getProtocolVersion() ) ) ? handshake.getProtocolVersion() : bungee.getProtocolVersion();
 
         Callback<ServerPing> pingBack = new Callback<ServerPing>()
