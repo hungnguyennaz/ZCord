@@ -323,7 +323,7 @@ public final class UserConnection implements ProxiedPlayer
 
             if ( getServer() == null && !ch.isClosing() )
             {
-                throw new QuietException("A plugin cancelled ServerConnectEvent with no server or disconnect.");
+                throw new IllegalStateException("A plugin cancelled ServerConnectEvent with no server or disconnect.");
             }
             return;
         }
