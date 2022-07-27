@@ -222,6 +222,11 @@ public class ZCord
         {
             return Settings.IMP.PROTECTION.CHECK_LOCALHOST != 1;
         }
+
+        if( Settings.IMP.PROTECTION.DETECT_GEYSER && userName.contains(address.getHostAddress())) {
+            return false;
+        }
+
         return ZCordUser == null || ( Settings.IMP.FORCE_CHECK_ON_ATTACK && isUnderAttack() )
             || !ZCordUser.getIp().equalsIgnoreCase( address.getHostAddress() );
     }
