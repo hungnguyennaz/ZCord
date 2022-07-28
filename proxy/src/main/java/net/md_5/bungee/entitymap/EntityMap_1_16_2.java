@@ -19,6 +19,8 @@ class EntityMap_1_16_2 extends EntityMap
     static final EntityMap_1_16_2 INSTANCE_1_18 = new EntityMap_1_16_2( 0x04, 0x2D );
     static final EntityMap_1_16_2 INSTANCE_1_19 = new EntityMap_1_16_2( 0x02, 0x2F );
 
+    static final EntityMap_1_16_2 INSTANCE_1_19_1 = new EntityMap_1_16_2( 0x02, 0x30 );
+
     //
     private final int spawnPlayerId;
     private final int spectateId;
