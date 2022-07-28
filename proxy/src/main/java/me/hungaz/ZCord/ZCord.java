@@ -119,6 +119,13 @@ public class ZCord
         }
     }
 
+    /**
+     * Сохраняет игрока в памяти и в датебазе
+     *
+     * @param userName Имя игрока
+     * @param address InetAddress игрока
+     * @param afterCheck игрок после проверки или нет
+     */
     public void saveUser(String userName, InetAddress address, boolean afterCheck)
     {
         userName = userName.toLowerCase();
