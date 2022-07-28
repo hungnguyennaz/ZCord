@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import net.md_5.bungee.protocol.AbstractPacketHandler;
-import net.md_5.bungee.protocol.ChatChain;
 import net.md_5.bungee.protocol.DefinedPacket;
 import net.md_5.bungee.protocol.ProtocolConstants;
 
@@ -22,7 +21,6 @@ public class ClientChat extends DefinedPacket
     private long salt;
     private byte[] signature;
     private boolean signedPreview;
-    private ChatChain chain;
 
     @Override
     public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
@@ -32,11 +30,6 @@ public class ClientChat extends DefinedPacket
         salt = buf.readLong();
         signature = readArray( buf );
         signedPreview = buf.readBoolean();
-        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19_1 )
-        {
-            chain = new ChatChain();
-            chain.read( buf, direction, protocolVersion );
-        }
     }
 
     @Override
@@ -47,10 +40,6 @@ public class ClientChat extends DefinedPacket
         buf.writeLong( salt );
         writeArray( signature, buf );
         buf.writeBoolean( signedPreview );
-        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19_1 )
-        {
-            chain.write( buf );
-        }
     }
 
     @Override

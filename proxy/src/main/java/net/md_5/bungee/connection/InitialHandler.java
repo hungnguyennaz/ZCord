@@ -8,7 +8,6 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.time.Instant;
 import java.util.HashSet;
@@ -443,13 +442,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
                 return;
             }
 
-            if ( getVersion() < ProtocolConstants.MINECRAFT_1_19_1 )
+            if ( !EncryptionUtil.check( publicKey ) )
             {
-                if ( !EncryptionUtil.check( publicKey, null ) )
-                {
-                    disconnect( bungee.getTranslation( "secure_profile_invalid" ) );
-                    return;
-                }
+                disconnect( bungee.getTranslation( "secure_profile_invalid" ) );
+                return;
             }
         }
 
@@ -589,31 +585,6 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
     private void finish()
     {
-        offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
-        if ( uniqueId == null )
-        {
-            uniqueId = offlineId;
-        }
-
-        if ( BungeeCord.getInstance().config.isEnforceSecureProfile() )
-        {
-            if ( getVersion() >= ProtocolConstants.MINECRAFT_1_19_1 )
-            {
-                boolean secure = false;
-                try
-                {
-                    secure = EncryptionUtil.check( loginRequest.getPublicKey(), uniqueId );
-                } catch ( GeneralSecurityException ex )
-                {
-                }
-
-                if ( !secure )
-                {
-                    disconnect( bungee.getTranslation( "secure_profile_invalid" ) );
-                    return;
-                }
-            }
-        }
         if ( isOnlineMode() )
         {
             // Check for multiple connections
@@ -651,6 +622,7 @@ public class InitialHandler extends PacketHandler implements PendingConnection
             return;
         }
 
+        offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
 
         PlayerSetUUIDEvent uuidEvent = new PlayerSetUUIDEvent( this, offlineId );
         //Because ZCord delayed a LoginEvent when player needs a check for a bot,
@@ -665,6 +637,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
         boolean sendLoginSuccess = uuidEvent.getUniqueId() != null;
 
+        if ( uniqueId == null )
+        {
+            uniqueId = offlineId;
+        }
 
         UserConnection userCon = new UserConnection( bungee, ch, getName(), InitialHandler.this );
         userCon.setCompressionThreshold( BungeeCord.getInstance().config.getCompressionThreshold() );
