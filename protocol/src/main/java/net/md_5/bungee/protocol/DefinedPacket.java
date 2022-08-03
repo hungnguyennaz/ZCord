@@ -306,6 +306,11 @@ public abstract class DefinedPacket {
         write(buf);
     }
 
+    //https://github.com/PaperMC/Velocity/commit/5ceac16a821ea35572ff11412ace8929fd06e278#diff-1642a6289610a04a4a1d0ddeaf54223c1d5e0536c2155cd6e379e33dd2f376dcR63
+    public abstract int expectedMaxLength(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion);
+
+    public abstract int expectedMinLength(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion);
+
     public abstract void handle(AbstractPacketHandler handler) throws Exception;
 
     @Override

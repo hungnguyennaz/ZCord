@@ -22,7 +22,6 @@ public class EncryptionResponse extends DefinedPacket
 
     public void read(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
     {
-        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 260, 1024 );
         //1.19 due new things sends 390 bytes normaly
         sharedSecret = readArray( buf, 128 );
         if ( protocolVersion < ProtocolConstants.MINECRAFT_1_19 || buf.readBoolean() )
@@ -50,6 +49,28 @@ public class EncryptionResponse extends DefinedPacket
             buf.writeLong( encryptionData.getSalt() );
             writeArray( encryptionData.getSignature(), buf );
         }
+    }
+
+    //https://github.com/PaperMC/Velocity/commit/5ceac16a821ea35572ff11412ace8929fd06e278#diff-1642a6289610a04a4a1d0ddeaf54223c1d5e0536c2155cd6e379e33dd2f376dcR63
+    @Override
+    public int expectedMaxLength(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion) {
+        int base = 256 + 2 + 2;
+        if (protocolVersion > ProtocolConstants.MINECRAFT_1_19) {
+            // Verify token is twice as long on 1.19+
+            // Additional 1 byte for left <> right and 8 bytes for salt
+            base += 128 + 8 + 1;
+        }
+        return base;
+    }
+
+    @Override
+    public int expectedMinLength(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion) {
+        int base = expectedMaxLength(buf, direction, protocolVersion);
+        if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
+            // These are "optional"
+            base -= 128 + 8;
+        }
+        return base;
     }
 
     @Override
