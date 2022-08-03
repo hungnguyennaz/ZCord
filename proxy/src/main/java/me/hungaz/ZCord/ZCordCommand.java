@@ -12,6 +12,7 @@ import net.md_5.bungee.BungeeCord;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.CommandSender;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -31,8 +32,11 @@ public class ZCordCommand extends Command
     {
         if ( sender instanceof ProxiedPlayer )
         {
-            sendStat( sender );
-            return;
+            if (args.length == 0) {
+                sender.sendMessage(new ComponentBuilder("This server is protected by ZCord")
+                        .color(ChatColor.DARK_BLUE).create());
+                return;
+            }
         }
         if ( args.length == 0 )
         {
