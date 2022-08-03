@@ -11,6 +11,8 @@ import net.md_5.bungee.protocol.PlayerPublicKey;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import net.md_5.bungee.protocol.ProtocolConstants.Direction;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,6 +24,7 @@ public class LoginRequest extends DefinedPacket {
 
     private String data;
     private PlayerPublicKey publicKey;
+    private UUID uuid;
 
     @Override
     public void read(ByteBuf buf, Direction direction, int protocolVersion) {
@@ -35,6 +38,11 @@ public class LoginRequest extends DefinedPacket {
         if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
             publicKey = readPublicKey(buf);
         }
+        if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19_1) {
+            if (buf.readBoolean()) {
+                uuid = readUUID(buf);
+            }
+        }
     }
 
     @Override
@@ -42,6 +50,14 @@ public class LoginRequest extends DefinedPacket {
         writeString(data, buf);
         if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
             writePublicKey(publicKey, buf);
+        }
+        if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19_1) {
+            if (uuid != null) {
+                buf.writeBoolean(true);
+                writeUUID(uuid, buf);
+            } else {
+                buf.writeBoolean(false);
+            }
         }
     }
 

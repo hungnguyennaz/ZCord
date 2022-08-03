@@ -30,7 +30,6 @@ import net.md_5.bungee.protocol.packet.LoginPayloadResponse;
 import net.md_5.bungee.protocol.packet.LoginRequest;
 import net.md_5.bungee.protocol.packet.LoginSuccess;
 import net.md_5.bungee.protocol.packet.PingPacket;
-import net.md_5.bungee.protocol.packet.PlayerChat;
 import net.md_5.bungee.protocol.packet.PlayerListHeaderFooter;
 import net.md_5.bungee.protocol.packet.PlayerListItem;
 import net.md_5.bungee.protocol.packet.PluginMessage;
@@ -142,11 +141,6 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_17, 0x0D ),
                     map( ProtocolConstants.MINECRAFT_1_19, 0x0A )
             );
-            TO_CLIENT.registerPacket(
-                    PlayerChat.class,
-                    PlayerChat::new,
-                    map( ProtocolConstants.MINECRAFT_1_19, 0x30 )
-            );
             // Waterfall start
             TO_CLIENT.registerPacket(
                     EntityEffect.class,
@@ -173,7 +167,7 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_16, 0x33 ),
                     map( ProtocolConstants.MINECRAFT_1_16_2, 0x32 ),
                     map( ProtocolConstants.MINECRAFT_1_17, 0x36 ),
-                    map( ProtocolConstants.MINECRAFT_1_19, 0x34 ),
+                    map(ProtocolConstants.MINECRAFT_1_19, 0x34),
                     map(ProtocolConstants.MINECRAFT_1_19_1, 0x37)
             );
             TO_CLIENT.registerPacket(
@@ -185,8 +179,8 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_15, 0x11 ),
                     map( ProtocolConstants.MINECRAFT_1_16, 0x10 ),
                     map( ProtocolConstants.MINECRAFT_1_16_2, 0x0F ),
-                    map( ProtocolConstants.MINECRAFT_1_17, 0x11 ),
-                    map( ProtocolConstants.MINECRAFT_1_19, 0x0E )
+                    map(ProtocolConstants.MINECRAFT_1_17, 0x11),
+                    map(ProtocolConstants.MINECRAFT_1_19, 0x0E)
             );
             TO_CLIENT.registerPacket(
                     ScoreboardObjective.class,
@@ -347,7 +341,8 @@ public enum Protocol
                     map( ProtocolConstants.MINECRAFT_1_16, 0x11 ),
                     map( ProtocolConstants.MINECRAFT_1_16_2, 0x10 ),
                     map( ProtocolConstants.MINECRAFT_1_17, 0x12 ),
-                    map( ProtocolConstants.MINECRAFT_1_19, 0x0F )
+                    map( ProtocolConstants.MINECRAFT_1_19, 0x1B ),
+                    map( ProtocolConstants.MINECRAFT_1_19_1, 0x1D )
             );
             TO_CLIENT.registerPacket(
                     GameState.class,
