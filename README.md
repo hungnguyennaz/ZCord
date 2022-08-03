@@ -15,4 +15,4 @@ Because this is an Limbo and Captcha Antibot style so it'll needs more resources
 - Recommended Ram: >4 Gb (3Gb ram for the Proxy)
 - Don't use Microsoft Azure because their firewall is shit
 - You can use my iptables rules for better handling: [Pastes](https://pastes.dev/VhjpAYGnJg)
-# Further version support-related updates will wait for Leymooo
+# Upstream is based on BungeeCord, if some developer wants it can pull-request.
