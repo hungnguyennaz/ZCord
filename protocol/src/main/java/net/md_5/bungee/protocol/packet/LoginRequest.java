@@ -15,39 +15,38 @@ import net.md_5.bungee.protocol.ProtocolConstants.Direction;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class LoginRequest extends DefinedPacket
-{
+public class LoginRequest extends DefinedPacket {
 
-    public static final int EXPECTED_MAX_LENGTH = 1 + ( 32 * 4 ); //ZCord
+    public static final int EXPECTED_MAX_LENGTH = 1 + (32 * 4); //ZCord
+    public static final int EXCEPTED_MAX_LENGTH_LASTEST = 850;
 
     private String data;
     private PlayerPublicKey publicKey;
 
     @Override
-    public void read(ByteBuf buf, Direction direction, int protocolVersion)
-    {
-        DefinedPacket.doLengthSanityChecks( buf, this, direction, protocolVersion, 0, EXPECTED_MAX_LENGTH ); //ZCord
-        data = readString( buf, 32 ); //ZCord read 32 characters instead of 15
+    public void read(ByteBuf buf, Direction direction, int protocolVersion) {
+        if (protocolVersion == ProtocolConstants.MINECRAFT_1_19) {
+            DefinedPacket.doLengthSanityChecks(buf, this, direction, protocolVersion, 0, EXCEPTED_MAX_LENGTH_LASTEST); //zcord
+        } else {
+            DefinedPacket.doLengthSanityChecks(buf, this, direction, protocolVersion, 0, EXPECTED_MAX_LENGTH); //zcord
+        }
+        data = readString(buf, 32); //ZCord read 32 characters instead of 15
 
-        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
-        {
-            publicKey = readPublicKey( buf );
+        if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
+            publicKey = readPublicKey(buf);
         }
     }
 
     @Override
-    public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion)
-    {
-        writeString( data, buf );
-        if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
-        {
-            writePublicKey( publicKey, buf );
+    public void write(ByteBuf buf, ProtocolConstants.Direction direction, int protocolVersion) {
+        writeString(data, buf);
+        if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
+            writePublicKey(publicKey, buf);
         }
     }
 
     @Override
-    public void handle(AbstractPacketHandler handler) throws Exception
-    {
-        handler.handle( this );
+    public void handle(AbstractPacketHandler handler) throws Exception {
+        handler.handle(this);
     }
 }
