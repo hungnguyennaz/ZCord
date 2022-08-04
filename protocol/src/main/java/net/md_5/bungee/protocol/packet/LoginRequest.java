@@ -62,6 +62,22 @@ public class LoginRequest extends DefinedPacket {
     }
 
     @Override
+    public int expectedMaxLength(ByteBuf buf, Direction direction, int protocolVersion) {
+       if(protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
+           return -1;
+       }
+       return 1024;
+    }
+
+    @Override
+    public int expectedMinLength(ByteBuf buf, Direction direction, int protocolVersion) {
+        if(protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
+            return -1;
+        }
+        return 1024;
+    }
+
+    @Override
     public void handle(AbstractPacketHandler handler) throws Exception {
         handler.handle(this);
     }
