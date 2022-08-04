@@ -22,15 +22,16 @@ public class MinecraftDecoder extends MessageToMessageDecoder<ByteBuf> {
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
         // See Varint21FrameDecoder for the general reasoning. We add this here as ByteToMessageDecoder#handlerRemoved()
         // will fire any cumulated data through the pipeline, so we want to try and stop it here.
-        if (!ctx.channel().isActive()) {
+        //For some reason if the bytebuf is not readable it will return
+        if (!ctx.channel().isActive() || !in.isReadable()) {
             return;
         }
 
         //ZCord start
-        if (!server && in.readableBytes() == 0) //Fix empty packet from server
-        {
+        if (!server && in.readableBytes() == 0) {
             return;
         }
+
         int originalReaderIndex = in.readerIndex();
         int originalReadableBytes = in.readableBytes();
         int packetId = DefinedPacket.readVarInt(in);
