@@ -70,7 +70,7 @@ public abstract class Configuration implements ProxyConfig
     private int throttleLimit = 1;
     private boolean ipForward;
     private Favicon favicon;
-    private int compressionThreshold = 256;
+    private int compressionThreshold = -1;
     private boolean preventProxyConnections;
     private boolean forgeSupport;
 

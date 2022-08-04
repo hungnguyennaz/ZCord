@@ -52,7 +52,8 @@ public class MinecraftDecoder extends MessageToMessageDecoder<ByteBuf> {
             in.skipBytes(in.readableBytes());
         }
         //System.out.println( "ID: " + packetId + ( packet == null ? " (null)" : " ("+packet+")" ) );
-        ByteBuf copy = in.copy(originalReaderIndex, originalReadableBytes); //ZCord
-        out.add(new PacketWrapper(packet, copy));
+        ByteBuf copy = in.duplicate(); //ZCord
+        out.add(new PacketWrapper(packet, copy.retain())
+        );
     }
 }
