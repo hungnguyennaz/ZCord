@@ -58,7 +58,7 @@ public class EncryptionResponse extends DefinedPacket
         if (protocolVersion > ProtocolConstants.MINECRAFT_1_19) {
             // Verify token is twice as long on 1.19+
             // Additional 1 byte for left <> right and 8 bytes for salt
-            base += 128 + 8 + 1;
+            base += 350 + 8 + 1;
         }
         return base;
     }
@@ -68,7 +68,7 @@ public class EncryptionResponse extends DefinedPacket
         int base = expectedMaxLength(buf, direction, protocolVersion);
         if (protocolVersion >= ProtocolConstants.MINECRAFT_1_19) {
             // These are "optional"
-            base -= 128 + 8;
+            base -= 350 + 8;
         }
         return base;
     }
