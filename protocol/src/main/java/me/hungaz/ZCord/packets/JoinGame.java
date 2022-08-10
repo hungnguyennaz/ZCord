@@ -11,7 +11,6 @@ import net.md_5.bungee.protocol.AbstractPacketHandler;
 import net.md_5.bungee.protocol.DefinedPacket;
 import net.md_5.bungee.protocol.ProtocolConstants;
 import me.hungaz.ZCord.utils.Dimension;
-import se.llbit.nbt.Tag;
 
 @Data
 @RequiredArgsConstructor
@@ -35,13 +34,7 @@ public class JoinGame extends DefinedPacket
     private boolean debug = false;
     private boolean flat = true;
 
-    private Tag dimensions116;
-    private Tag dimensions1162;
-    private Tag dimensions1182;
-    private Tag dimensions119;
-
-    private Tag dimension;
-    private Tag dimension1182;
+    private Dimension dimension;
     public JoinGame()
     {
         this ( 0, Dimension.OVERWORLD );
@@ -52,14 +45,7 @@ public class JoinGame extends DefinedPacket
         this.dimensionId = dimension.getDimensionId();
         this.worldName = dimension.getKey();
         this.worldNames = new HashSet<>( Arrays.asList( dimension.getKey() ) );
-
-        this.dimensions116 = dimension.getFullCodec( ProtocolConstants.MINECRAFT_1_16_1 );
-        this.dimensions1162 = dimension.getFullCodec( ProtocolConstants.MINECRAFT_1_16_2 );
-        this.dimensions1182 = dimension.getFullCodec( ProtocolConstants.MINECRAFT_1_18_2 );
-        this.dimensions119 = dimension.getFullCodec( ProtocolConstants.MINECRAFT_1_19 );
-
-        this.dimension = dimension.getAttributes( ProtocolConstants.MINECRAFT_1_16_2 );
-        this.dimension1182 = dimension.getAttributes( ProtocolConstants.MINECRAFT_1_18_2 );
+        this.dimension = dimension;
     }
 
     @Override
@@ -87,19 +73,7 @@ public class JoinGame extends DefinedPacket
                 writeString( world, buf );
             }
 
-            if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
-            {
-                writeTag( dimensions119, buf );
-            } else if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_18_2 )
-            {
-                writeTag( dimensions1182, buf );
-            } else if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16_2 )
-            {
-                writeTag( dimensions1162, buf );
-            } else
-            {
-                writeTag( dimensions116, buf );
-            }
+            writeTag( dimension.getFullCodec( protocolVersion ), buf );
         }
 
         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_16 )
@@ -107,12 +81,9 @@ public class JoinGame extends DefinedPacket
             if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 || protocolVersion <= ProtocolConstants.MINECRAFT_1_16_1 )
             {
                 writeString( worldName, buf );
-            } else if ( protocolVersion == ProtocolConstants.MINECRAFT_1_18_2 )
-            {
-                writeTag( dimension1182, buf );
             } else
             {
-                writeTag( dimension, buf );
+                writeTag( dimension.getAttributes( protocolVersion ), buf );
             }
             writeString( worldName, buf );
         } else if ( protocolVersion > ProtocolConstants.MINECRAFT_1_9 )

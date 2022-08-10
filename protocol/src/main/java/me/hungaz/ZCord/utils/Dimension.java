@@ -91,7 +91,7 @@ public enum Dimension
 
         if ( protocolVersion >= ProtocolConstants.MINECRAFT_1_19 )
         {
-            root.add( "minecraft:chat_type", createChatRegistry() );
+            root.add( "minecraft:chat_type", createChatRegistry( protocolVersion ) );
         }
 
         return new NamedTag( "", root );
@@ -169,17 +169,36 @@ public enum Dimension
         return root;
     }
 
-    private CompoundTag createChatRegistry()
+    private CompoundTag createChatRegistry(int version)
     {
+
         CompoundTag root = new CompoundTag();
         root.add( "type", new StringTag( "minecraft:chat_type" ) );
         CompoundTag systemChat = new CompoundTag();
         systemChat.add( "name", new StringTag( "minecraft:system" ) );
         systemChat.add( "id", new IntTag( 1 ) );
         CompoundTag element = new CompoundTag();
-        element.add( "chat", new CompoundTag() );
+
+
+        CompoundTag chat = new CompoundTag();
+        if ( version >= ProtocolConstants.MINECRAFT_1_19_1 )
+        {
+            chat.add( "style", new CompoundTag() );
+            chat.add( "translation_key", new StringTag( "chat.type.system" ) );
+            chat.add( "parameters", new ListTag( Tag.TAG_STRING, Arrays.asList( new StringTag( "sender" ), new StringTag( "content" ) ) ) );
+        }
+
+        element.add( "chat", chat );
         CompoundTag narration = new CompoundTag();
-        narration.add( "priority", new StringTag( "system" ) );
+        if ( version >= ProtocolConstants.MINECRAFT_1_19_1 )
+        {
+            narration.add( "style", new CompoundTag() );
+            narration.add( "translation_key", new StringTag( "chat.type.system.narrate" ) );
+            narration.add( "parameters", new ListTag( Tag.TAG_STRING, Arrays.asList( new StringTag( "sender" ), new StringTag( "content" ) ) ) );
+        } else
+        {
+            narration.add( "priority", new StringTag( "system" ) );
+        }
         element.add( "narration", narration );
         systemChat.add( "element", element );
         root.add( "value", new ListTag( Tag.TAG_COMPOUND, Arrays.asList( systemChat ) ) );
